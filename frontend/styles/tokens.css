@@ -1,0 +1,70 @@
+/* Amper Velocity — design tokens */
+:root {
+  /* Palette */
+  --amper-yellow: #FFD60A;
+  --amper-yellow-deep: #F5C200;
+  --amper-yellow-soft: #FFF4B8;
+
+  --ink-900: #0A0A0A;
+  --ink-800: #1A1A1A;
+  --ink-700: #2B2B2B;
+  --ink-600: #4A4A4A;
+  --ink-500: #6B6B6B;
+  --ink-400: #8E8E8E;
+  --ink-300: #B8B8B8;
+  --ink-200: #D9D8D4;
+  --ink-100: #EDEBE6;
+
+  --surface: #F7F6F3;
+  --surface-warm: #F0EEE8;
+  --paper: #FFFFFF;
+
+  --success: #10B981;
+  --success-soft: #D1FAE5;
+  --danger: #EF4444;
+
+  /* Type */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Space Grotesk', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  /* Radii */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+
+  /* Shadows — minimal, favor borders */
+  --shadow-card: 0 1px 0 rgba(10,10,10,0.04), 0 12px 32px -18px rgba(10,10,10,0.18);
+  --shadow-lift: 0 20px 60px -20px rgba(10,10,10,0.3);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font-body);
+  color: var(--ink-900);
+  background: var(--surface);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "ss02";
+}
+
+button { font-family: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+input, select { font-family: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+
+/* Utility: yellow highlight */
+.hl {
+  background: var(--amper-yellow);
+  padding: 0 0.15em 0.05em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Scrollbar (subtle) */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--ink-200); border-radius: 999px; }
+::-webkit-scrollbar-track { background: transparent; }

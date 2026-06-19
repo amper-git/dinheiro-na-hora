@@ -1,0 +1,93 @@
+/* Shared UI primitives */
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 22px;
+  border-radius: var(--r-pill);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.005em;
+  transition: transform 120ms ease, background 180ms ease, box-shadow 180ms ease;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn-primary {
+  background: var(--amper-yellow);
+  color: var(--ink-900);
+  box-shadow: 0 1px 0 rgba(10,10,10,.08);
+}
+.btn-primary:hover { background: var(--amper-yellow-deep); }
+.btn-dark {
+  background: var(--ink-900);
+  color: #fff;
+}
+.btn-dark:hover { background: var(--ink-800); }
+.btn-ghost {
+  background: transparent;
+  color: var(--ink-900);
+  border: 1px solid var(--ink-200);
+}
+.btn-ghost:hover { border-color: var(--ink-900); background: var(--paper); }
+.btn-sm { height: 40px; padding: 0 16px; font-size: 14px; }
+.btn-lg { height: 60px; padding: 0 28px; font-size: 16px; }
+
+/* Chips / Tags */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.chip-yellow { background: var(--amper-yellow); color: var(--ink-900); }
+.chip-dark { background: var(--ink-900); color: #fff; }
+.chip-outline { background: transparent; border: 1px solid var(--ink-200); color: var(--ink-700); }
+
+/* Card */
+.card {
+  background: var(--paper);
+  border-radius: var(--r-lg);
+  border: 1px solid var(--ink-100);
+}
+
+/* Label */
+.label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-500);
+}
+
+/* Mono data */
+.mono { font-family: var(--font-mono); font-feature-settings: "tnum"; }
+
+/* Grid dots background (subtle) */
+.bg-dots {
+  background-image: radial-gradient(var(--ink-200) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Headline reset */
+h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); letter-spacing: -0.02em; }
+
+/* Hide focus outline on mouse */
+:focus:not(:focus-visible) { outline: none; }
+:focus-visible { outline: 2px solid var(--ink-900); outline-offset: 2px; }
+
+/* Utility shims used across screens */
+.row { display: flex; }
+.col { display: flex; flex-direction: column; }
+.gap-8 { gap: 8px; } .gap-12 { gap: 12px; } .gap-16 { gap: 16px; } .gap-24 { gap: 24px; } .gap-32 { gap: 32px; }
+.muted { color: var(--ink-500); }
