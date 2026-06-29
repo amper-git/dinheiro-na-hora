@@ -97,21 +97,21 @@ const Hero = ({ onStart }) => {
             fontWeight: 700,
             marginBottom: 28,
           }}>
-            Venda por mais.<br/>
-            <span className="hl">Sem pressa</span>,<br/>
-            sem dor de cabeça.
+            Oferta Instantânea.<br/>
+            Venda com <span className="hl">Segurança</span>,<br/>
+            sem dor de cabeça. Sem Golpes.
           </h1>
 
           <p style={{ fontSize: 19, lineHeight: 1.5, color: 'var(--ink-600)', maxWidth: 520, marginBottom: 36 }}>
-            A Amper cuida de tudo: certificado de garantia 1 ano, fotos profissionais, polimento, financiamento aprovado pro comprador. Você continua usando o carro até a venda — e recebe acima de loja e concessionária.
+            A Amper cuida de tudo: vistoria cautelar, fotos profissionais, financiamento aprovado pra compradores verificados. Você continua usando o carro até a venda — sem perda de tempo, sem atender desconhecidos.
           </p>
 
           {/* trust strip */}
           <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap', alignItems: 'center' }}>
             {[
               { icon: <Icon.CheckCircle/>, text: 'Use o carro até a venda' },
-              { icon: <Icon.CheckCircle/>, text: 'Só paga se vender' },
-              { icon: <Icon.CheckCircle/>, text: 'Garantia + fotos + polimento grátis' },
+              { icon: <Icon.CheckCircle/>, text: 'Vendemos em poucos dias' },
+              { icon: <Icon.CheckCircle/>, text: 'Vistoria Cautelar' },
             ].map((t, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--ink-700)' }}>
                 <span style={{ color: 'var(--success)' }}>{t.icon}</span>
@@ -293,10 +293,10 @@ const StatsBar = () => (
       display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24,
     }}>
       {[
-        { k: '+42.000', v: 'veículos vendidos' },
-        { k: '4,9 / 5', v: 'avaliação dos clientes' },
+        { k: '+1.000', v: 'veículos vendidos' },
+        { k: '4,6 / 5', v: 'avaliação dos clientes' },
         { k: '7 dias', v: 'tempo médio de venda' },
-        { k: '+R$ 800M', v: 'transacionados com segurança' },
+        { k: 'R$ 50M', v: 'transacionados com segurança' },
       ].map((s, i) => (
         <div key={i} style={{ display: 'flex', flexDirection: 'column', borderLeft: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.1)', paddingLeft: i === 0 ? 0 : 24 }}>
           <div style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', fontFamily: 'var(--font-display)' }}>{s.k}</div>
