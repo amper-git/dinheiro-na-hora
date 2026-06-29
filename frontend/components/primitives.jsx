@@ -162,4 +162,20 @@ const fmtBRLShort = (n) => {
   return fmtBRL(n);
 };
 
-Object.assign(window, { Icon, AmperLogo, fmtBRL, fmtBRLShort });
+// Responsive hook — mobile-first breakpoint helper.
+// Devuelve true cuando el viewport está por debajo de `bp` (default 768px).
+const useIsMobile = (bp = 768) => {
+  const query = `(max-width: ${bp}px)`;
+  const get = () => (typeof window !== 'undefined' && window.matchMedia(query).matches);
+  const [isMobile, setIsMobile] = React.useState(get);
+  React.useEffect(() => {
+    const mq = window.matchMedia(query);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    setIsMobile(mq.matches);
+    return () => mq.removeEventListener('change', handler);
+  }, [query]);
+  return isMobile;
+};
+
+Object.assign(window, { Icon, AmperLogo, fmtBRL, fmtBRLShort, useIsMobile });

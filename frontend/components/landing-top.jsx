@@ -2,6 +2,7 @@
 
 const Nav = ({ onStart, compact }) => {
   const [scrolled, setScrolled] = React.useState(false);
+  const isMobile = useIsMobile();
   React.useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handler);
@@ -18,21 +19,23 @@ const Nav = ({ onStart, compact }) => {
     }}>
       <div style={{
         maxWidth: 1360, margin: '0 auto',
-        padding: '18px 40px',
+        padding: isMobile ? '14px 20px' : '18px 40px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24,
       }}>
-        <AmperLogo size={26} />
-        <nav style={{ display: 'flex', gap: 32, fontSize: 14, fontWeight: 500, color: 'var(--ink-700)' }}>
-          <a href="#como-funciona">Como funciona</a>
-          <a href="#diferenciais">Por que Amper</a>
-          <a href="#vendas">Vendas recentes</a>
-          <a href="#comparativo">Compare</a>
-          <a href="#faq">Dúvidas</a>
-        </nav>
+        <AmperLogo size={isMobile ? 24 : 26} />
+        {!isMobile && (
+          <nav style={{ display: 'flex', gap: 32, fontSize: 14, fontWeight: 500, color: 'var(--ink-700)' }}>
+            <a href="#como-funciona">Como funciona</a>
+            <a href="#diferenciais">Por que Amper</a>
+            <a href="#vendas">Vendas recentes</a>
+            <a href="#comparativo">Compare</a>
+            <a href="#faq">Dúvidas</a>
+          </nav>
+        )}
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <button className="btn btn-ghost btn-sm">Entrar</button>
+          {!isMobile && <button className="btn btn-ghost btn-sm">Entrar</button>}
           <button className="btn btn-primary btn-sm" onClick={onStart}>
-            Avaliar meu carro <Icon.Arrow width={16} height={16} />
+            {isMobile ? 'Avaliar' : 'Avaliar meu carro'} <Icon.Arrow width={16} height={16} />
           </button>
         </div>
       </div>
@@ -42,6 +45,7 @@ const Nav = ({ onStart, compact }) => {
 
 /* ---------- HERO ---------- */
 const Hero = ({ onStart }) => {
+  const isMobile = useIsMobile();
   const [, force] = React.useReducer(x => x + 1, 0);
   React.useEffect(() => {
     const h = () => force();
@@ -76,13 +80,15 @@ const Hero = ({ onStart }) => {
   };
 
   return (
-    <section style={{ position: 'relative', padding: '60px 40px 80px', overflow: 'hidden' }}>
+    <section style={{ position: 'relative', padding: isMobile ? '32px 20px 48px' : '60px 40px 80px', overflow: 'hidden' }}>
       {/* decorative scribble */}
-      <svg width="420" height="240" viewBox="0 0 420 240" style={{ position: 'absolute', top: 90, right: -60, opacity: 0.5, pointerEvents: 'none' }}>
-        <path d="M20 180 C 80 40, 200 220, 260 120 S 400 40, 400 80" stroke="#FFD60A" strokeWidth="36" fill="none" strokeLinecap="round" opacity="0.35"/>
-      </svg>
+      {!isMobile && (
+        <svg width="420" height="240" viewBox="0 0 420 240" style={{ position: 'absolute', top: 90, right: -60, opacity: 0.5, pointerEvents: 'none' }}>
+          <path d="M20 180 C 80 40, 200 220, 260 120 S 400 40, 400 80" stroke="#FFD60A" strokeWidth="36" fill="none" strokeLinecap="round" opacity="0.35"/>
+        </svg>
+      )}
 
-      <div style={{ maxWidth: 1360, margin: '0 auto', display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 64, alignItems: 'center' }}>
+      <div style={{ maxWidth: 1360, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.05fr 0.95fr', gap: isMobile ? 36 : 64, alignItems: 'center' }}>
         {/* Left: headline */}
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
@@ -91,18 +97,18 @@ const Hero = ({ onStart }) => {
           </div>
 
           <h1 style={{
-            fontSize: 'clamp(52px, 5.8vw, 92px)',
-            lineHeight: 0.95,
+            fontSize: isMobile ? 'clamp(34px, 9vw, 46px)' : 'clamp(52px, 5.8vw, 92px)',
+            lineHeight: isMobile ? 1.02 : 0.95,
             letterSpacing: '-0.035em',
             fontWeight: 700,
-            marginBottom: 28,
+            marginBottom: isMobile ? 20 : 28,
           }}>
             Oferta Instantânea.<br/>
             Venda com <span className="hl">Segurança</span>,<br/>
             sem dor de cabeça. Sem Golpes.
           </h1>
 
-          <p style={{ fontSize: 19, lineHeight: 1.5, color: 'var(--ink-600)', maxWidth: 520, marginBottom: 36 }}>
+          <p style={{ fontSize: isMobile ? 16 : 19, lineHeight: 1.5, color: 'var(--ink-600)', maxWidth: 520, marginBottom: isMobile ? 26 : 36 }}>
             A Amper cuida de tudo: vistoria cautelar, fotos profissionais, financiamento aprovado pra compradores verificados. Você continua usando o carro até a venda — sem perda de tempo, sem atender desconhecidos.
           </p>
 
@@ -123,7 +129,7 @@ const Hero = ({ onStart }) => {
 
         {/* Right: simulator card */}
         <div className="card" style={{
-          padding: 28,
+          padding: isMobile ? 20 : 28,
           borderRadius: 24,
           boxShadow: 'var(--shadow-lift)',
           border: '1px solid var(--ink-100)',
@@ -283,28 +289,36 @@ const Field = ({ label, children }) => (
 );
 
 /* ---------- BAR: stats row ---------- */
-const StatsBar = () => (
-  <div style={{
-    background: 'var(--ink-900)', color: 'white',
-    padding: '28px 40px',
-  }}>
+const StatsBar = () => {
+  const isMobile = useIsMobile();
+  return (
     <div style={{
-      maxWidth: 1360, margin: '0 auto',
-      display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24,
+      background: 'var(--ink-900)', color: 'white',
+      padding: isMobile ? '24px 20px' : '28px 40px',
     }}>
-      {[
-        { k: '+1.000', v: 'veículos vendidos' },
-        { k: '4,6 / 5', v: 'avaliação dos clientes' },
-        { k: '7 dias', v: 'tempo médio de venda' },
-        { k: 'R$ 50M', v: 'transacionados com segurança' },
-      ].map((s, i) => (
-        <div key={i} style={{ display: 'flex', flexDirection: 'column', borderLeft: i === 0 ? 'none' : '1px solid rgba(255,255,255,0.1)', paddingLeft: i === 0 ? 0 : 24 }}>
-          <div style={{ fontSize: 32, fontWeight: 700, letterSpacing: '-0.02em', fontFamily: 'var(--font-display)' }}>{s.k}</div>
-          <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.v}</div>
-        </div>
-      ))}
+      <div style={{
+        maxWidth: 1360, margin: '0 auto',
+        display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+        gap: isMobile ? '24px 16px' : 24,
+      }}>
+        {[
+          { k: '+1.000', v: 'veículos vendidos' },
+          { k: '4,6 / 5', v: 'avaliação dos clientes' },
+          { k: '7 dias', v: 'tempo médio de venda' },
+          { k: 'R$ 50M', v: 'transacionados com segurança' },
+        ].map((s, i) => {
+          // En móvil (2 col) el borde va en las columnas de la derecha; en desktop, en todas menos la primera.
+          const hasBorder = isMobile ? i % 2 === 1 : i !== 0;
+          return (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', borderLeft: hasBorder ? '1px solid rgba(255,255,255,0.1)' : 'none', paddingLeft: hasBorder ? (isMobile ? 16 : 24) : 0 }}>
+              <div style={{ fontSize: isMobile ? 26 : 32, fontWeight: 700, letterSpacing: '-0.02em', fontFamily: 'var(--font-display)' }}>{s.k}</div>
+              <div style={{ fontSize: isMobile ? 12 : 13, color: 'rgba(255,255,255,0.55)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{s.v}</div>
+            </div>
+          );
+        })}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 Object.assign(window, { Nav, Hero, StatsBar });
