@@ -4,6 +4,7 @@
 // Explicitly does NOT show: market estimate, FIPE, breakdown, classifieds, +% acima da média.
 // Shows: target sale price (above market), what's included (warranty/photos/polish/financing), commission model, schedule.
 const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
+  const isMobile = useIsMobile();
   const [, force] = React.useReducer(x => x + 1, 0);
   React.useEffect(() => {
     const h = () => force();
@@ -65,7 +66,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
   };
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px 40px 100px' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 20px 72px' : '48px 40px 100px' }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
         <span className="chip chip-yellow"><Icon.Sparkle width={12} height={12}/> Análise concluída</span>
@@ -74,7 +75,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
         </span>
       </div>
 
-      <h1 style={{ fontSize: 44, lineHeight: 1.05, letterSpacing: '-0.03em', fontWeight: 700, marginBottom: 8 }}>
+      <h1 style={{ fontSize: isMobile ? 30 : 44, lineHeight: 1.05, letterSpacing: '-0.03em', fontWeight: 700, marginBottom: 8 }}>
         Sua oferta pelo <span className="hl">{vehicleName || `${brand?.name} ${data.model}`}</span>
       </h1>
       <p style={{ fontSize: 16, color: 'var(--ink-600)', marginBottom: 36 }}>
@@ -87,7 +88,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
       {/* Offer card — big range, bonus vs concessionária, warranty badge */}
       <div style={{
         background: 'var(--ink-900)', color: 'white',
-        borderRadius: 28, padding: 48,
+        borderRadius: 28, padding: isMobile ? 24 : 48,
         position: 'relative', overflow: 'hidden',
         marginBottom: 28,
       }}>
@@ -97,7 +98,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
           background: 'radial-gradient(circle, rgba(255,214,10,0.20) 0%, transparent 70%)',
         }}/>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 48, alignItems: 'center', position: 'relative' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: isMobile ? 28 : 48, alignItems: 'center', position: 'relative' }}>
           <div>
             <div className="label" style={{ color: 'var(--amper-yellow)', marginBottom: 18 }}>Preço-alvo de venda</div>
 
@@ -112,7 +113,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
                     De
                   </div>
                   <div style={{
-                    fontSize: 72, fontWeight: 700, letterSpacing: '-0.035em',
+                    fontSize: isMobile ? 44 : 72, fontWeight: 700, letterSpacing: '-0.035em',
                     lineHeight: 1, fontFamily: 'var(--font-display)',
                   }}>
                     {fmtBRL(range.min)}
@@ -121,7 +122,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
                     até
                   </div>
                   <div style={{
-                    fontSize: 72, fontWeight: 700, letterSpacing: '-0.035em',
+                    fontSize: isMobile ? 44 : 72, fontWeight: 700, letterSpacing: '-0.035em',
                     lineHeight: 1, fontFamily: 'var(--font-display)',
                   }}>
                     {fmtBRL(range.max)}
@@ -129,7 +130,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
                 </>
               ) : (
                 <div style={{
-                  fontSize: 96, fontWeight: 700, letterSpacing: '-0.035em',
+                  fontSize: isMobile ? 52 : 96, fontWeight: 700, letterSpacing: '-0.035em',
                   lineHeight: 1, fontFamily: 'var(--font-display)',
                 }}>
                   {fmtBRL(range.center)}
@@ -209,10 +210,10 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
 
       {/* Embedded scheduler */}
       <div id="schedule-anchor" className="card" style={{
-        padding: 36, border: '1px solid var(--ink-100)',
+        padding: isMobile ? 22 : 36, border: '1px solid var(--ink-100)',
       }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 4, gap: 16, flexWrap: 'wrap' }}>
-          <h3 style={{ fontSize: 26, fontWeight: 700, letterSpacing: '-0.02em' }}>Agende sua vistoria gratuita</h3>
+          <h3 style={{ fontSize: isMobile ? 21 : 26, fontWeight: 700, letterSpacing: '-0.02em' }}>Agende sua vistoria gratuita</h3>
           <span style={{ fontSize: 13, color: 'var(--ink-500)' }}>30 min · em casa ou em loja parceira · sem compromisso</span>
         </div>
         <p style={{ fontSize: 14.5, color: 'var(--ink-600)', marginBottom: 28, maxWidth: 680 }}>
@@ -221,7 +222,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
 
         {/* Date grid */}
         <div className="label" style={{ marginBottom: 10 }}>Data</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 10, marginBottom: 28 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(4, 1fr)' : 'repeat(7, 1fr)', gap: isMobile ? 8 : 10, marginBottom: 28 }}>
           {dates.map((d, i) => {
             const active = pickedDate === i;
             return (
@@ -243,7 +244,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
 
         {/* Slot buttons */}
         <div className="label" style={{ marginBottom: 10 }}>Horário disponível</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 32 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)', gap: isMobile ? 8 : 10, marginBottom: 32 }}>
           {slots.map((s, i) => {
             const active = pickedSlot === i;
             // mark some as occupied (every 3rd)
@@ -270,13 +271,14 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
         </div>
 
         {/* CTAs */}
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 12, alignItems: isMobile ? 'stretch' : 'center', flexWrap: 'wrap' }}>
           <button
             onClick={handleAccept}
             disabled={pickedSlot === null}
             className="btn btn-primary btn-lg"
             style={{
-              flex: 1, minWidth: 300,
+              flex: 1, minWidth: isMobile ? 0 : 300,
+              width: isMobile ? '100%' : undefined,
               opacity: pickedSlot === null ? 0.5 : 1,
               cursor: pickedSlot === null ? 'not-allowed' : 'pointer',
             }}>
@@ -285,7 +287,7 @@ const OfferReveal = ({ data, apiOffer, onAccept, onReject }) => {
               : <>Selecione um horário</>
             }
           </button>
-          <button onClick={onReject} className="btn btn-ghost btn-lg">
+          <button onClick={onReject} className="btn btn-ghost btn-lg" style={{ width: isMobile ? '100%' : undefined }}>
             Renegociar
           </button>
         </div>

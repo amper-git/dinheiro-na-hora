@@ -2,6 +2,7 @@
 
 /* ---------- LIVE SALES FEED ---------- */
 const LiveSales = () => {
+  const isMobile = useIsMobile();
   const sales = [
     { car: 'Honda Civic EXL', year: 2022, city: 'São Paulo, SP', km: 38500, price: 142000, days: 4, avatar: 'J' },
     { car: 'VW T-Cross Highline', year: 2023, city: 'Rio de Janeiro, RJ', km: 22100, price: 156500, days: 6, avatar: 'M' },
@@ -13,7 +14,7 @@ const LiveSales = () => {
     { car: 'Renault Duster Iconic', year: 2023, city: 'Fortaleza, CE', km: 24300, price: 121000, days: 4, avatar: 'S' },
   ];
   return (
-    <section id="vendas" style={{ padding: '120px 40px', background: 'var(--surface)' }}>
+    <section id="vendas" style={{ padding: isMobile ? '80px 20px' : '120px 40px', background: 'var(--surface)' }}>
       <div style={{ maxWidth: 1360, margin: '0 auto' }}>
         <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between', marginBottom: 40, gap: 24, flexWrap: 'wrap' }}>
           <div>
@@ -24,7 +25,7 @@ const LiveSales = () => {
                 Ao vivo
               </span>
             </div>
-            <h2 style={{ fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em', fontWeight: 700, maxWidth: 700 }}>
+            <h2 style={{ fontSize: isMobile ? 34 : 56, lineHeight: 1, letterSpacing: '-0.03em', fontWeight: 700, maxWidth: 700 }}>
               Carros vendidos nesta<br/>semana pela Amper.
             </h2>
           </div>
@@ -32,8 +33,9 @@ const LiveSales = () => {
         </div>
 
         <div style={{
-          background: 'var(--paper)', borderRadius: 20, border: '1px solid var(--ink-100)', overflow: 'hidden',
+          background: 'var(--paper)', borderRadius: 20, border: '1px solid var(--ink-100)', overflow: isMobile ? 'auto' : 'hidden',
         }}>
+          <div style={{ minWidth: isMobile ? 720 : 'auto' }}>
           <div style={{
             display: 'grid',
             gridTemplateColumns: '36px 1.8fr 1fr 100px 120px 120px 100px',
@@ -69,6 +71,7 @@ const LiveSales = () => {
               <div style={{ textAlign: 'right', fontSize: 13, color: 'var(--success)', fontWeight: 600 }}>{s.days}d</div>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </section>
@@ -77,6 +80,7 @@ const LiveSales = () => {
 
 /* ---------- COMPARATIVO ---------- */
 const Comparativo = () => {
+  const isMobile = useIsMobile();
   const rows = [
     { label: 'Tempo médio para vender', amper: '7 dias', loja: '30-60 dias', anuncio: '45-90 dias' },
     { label: 'Preço recebido', amper: 'Acima da média', loja: '15-20% abaixo', anuncio: 'Variável' },
@@ -87,16 +91,17 @@ const Comparativo = () => {
     { label: 'Pagamento à vista', amper: '24h após vistoria', loja: 'Pode ter parcela', anuncio: 'Depende do comprador' },
   ];
   return (
-    <section id="comparativo" style={{ padding: '120px 40px', background: 'var(--ink-900)', color: 'white' }}>
+    <section id="comparativo" style={{ padding: isMobile ? '80px 20px' : '120px 40px', background: 'var(--ink-900)', color: 'white' }}>
       <div style={{ maxWidth: 1360, margin: '0 auto' }}>
-        <div style={{ marginBottom: 56, maxWidth: 720 }}>
+        <div style={{ marginBottom: isMobile ? 32 : 56, maxWidth: 720 }}>
           <span className="chip chip-yellow" style={{ marginBottom: 20 }}>Compare</span>
-          <h2 style={{ fontSize: 64, lineHeight: 0.98, letterSpacing: '-0.03em', fontWeight: 700 }}>
+          <h2 style={{ fontSize: isMobile ? 40 : 64, lineHeight: 0.98, letterSpacing: '-0.03em', fontWeight: 700 }}>
             Três caminhos.<br/>Um <span className="hl">sem dor</span>.
           </h2>
         </div>
 
-        <div style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, overflow: 'hidden' }}>
+        <div style={{ border: '1px solid rgba(255,255,255,0.1)', borderRadius: 20, overflow: isMobile ? 'auto' : 'hidden' }}>
+          <div style={{ minWidth: isMobile ? 640 : 'auto' }}>
           <div style={{
             display: 'grid', gridTemplateColumns: '1.3fr 1fr 1fr 1fr',
             padding: '24px 28px',
@@ -125,6 +130,7 @@ const Comparativo = () => {
               <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)' }}>{r.anuncio}</div>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </section>
@@ -133,6 +139,7 @@ const Comparativo = () => {
 
 /* ---------- FAQ ---------- */
 const FAQ = () => {
+  const isMobile = useIsMobile();
   const [open, setOpen] = React.useState(0);
   const qs = [
     { q: 'Como vocês chegam ao preço da oferta?', a: 'Cruzamos dados de mercado em portais de venda, também vemos o giro de cada veículo, e entregamos o preço acima de concessionária, de forma rápida e segura.' },
@@ -144,11 +151,11 @@ const FAQ = () => {
     { q: 'Em quais cidades vocês atendem?', a: 'São Paulo capital e região metropolitana.' },
   ];
   return (
-    <section id="faq" style={{ padding: '120px 40px', background: 'var(--surface)' }}>
+    <section id="faq" style={{ padding: isMobile ? '80px 20px' : '120px 40px', background: 'var(--surface)' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 56 }}>
+        <div style={{ textAlign: 'center', marginBottom: isMobile ? 32 : 56 }}>
           <span className="chip chip-outline" style={{ marginBottom: 20 }}>Dúvidas frequentes</span>
-          <h2 style={{ fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em', fontWeight: 700 }}>
+          <h2 style={{ fontSize: isMobile ? 34 : 56, lineHeight: 1, letterSpacing: '-0.03em', fontWeight: 700 }}>
             Perguntas que <span className="hl">todo mundo faz</span>.
           </h2>
         </div>
@@ -190,13 +197,15 @@ const FAQ = () => {
 };
 
 /* ---------- PARTNERS + BLOG + FOOTER ---------- */
-const Partners = () => (
-  <section style={{ padding: '80px 40px', background: 'var(--paper)', borderTop: '1px solid var(--ink-100)', borderBottom: '1px solid var(--ink-100)' }}>
+const Partners = () => {
+  const isMobile = useIsMobile();
+  return (
+  <section style={{ padding: isMobile ? '60px 20px' : '80px 40px', background: 'var(--paper)', borderTop: '1px solid var(--ink-100)', borderBottom: '1px solid var(--ink-100)' }}>
     <div style={{ maxWidth: 1360, margin: '0 auto' }}>
       <div style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--ink-500)', marginBottom: 32, textAlign: 'center', fontWeight: 600 }}>
         Parceiros e imprensa
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 24, alignItems: 'center' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(6, 1fr)', gap: 24, alignItems: 'center' }}>
         {['Itaú', 'Bradesco', 'Santander', 'Porto Seguro', 'Exame', 'Valor Econômico'].map((name, i) => (
           <div key={i} style={{
             height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -208,22 +217,24 @@ const Partners = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 const Blog = () => {
+  const isMobile = useIsMobile();
   const posts = [
     { cat: 'Guia', title: 'Como precificar seu carro usado em 2026: o que mudou', time: '6 min', color: '#FFF4B8' },
     { cat: 'Mercado', title: 'Elétricos usados: vale a pena vender agora ou esperar?', time: '4 min', color: '#DDF5E8' },
     { cat: 'Documentação', title: 'Passo a passo: quitar financiamento e transferir o veículo', time: '8 min', color: '#E5E4FF' },
   ];
   return (
-    <section style={{ padding: '120px 40px', background: 'var(--paper)' }}>
+    <section style={{ padding: isMobile ? '80px 20px' : '120px 40px', background: 'var(--paper)' }}>
       <div style={{ maxWidth: 1360, margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: 40, flexWrap: 'wrap', gap: 24 }}>
-          <h2 style={{ fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em', fontWeight: 700 }}>Guias e mercado.</h2>
+          <h2 style={{ fontSize: isMobile ? 34 : 56, lineHeight: 1, letterSpacing: '-0.03em', fontWeight: 700 }}>Guias e mercado.</h2>
           <button className="btn btn-ghost">Todos os artigos <Icon.Arrow width={16} height={16}/></button>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 20 }}>
           {posts.map((p, i) => (
             <article key={i} style={{
               borderRadius: 20, overflow: 'hidden',
@@ -249,23 +260,25 @@ const Blog = () => {
   );
 };
 
-const Footer = ({ onStart }) => (
-  <footer style={{ background: 'var(--ink-900)', color: 'white', padding: '100px 40px 40px' }}>
+const Footer = ({ onStart }) => {
+  const isMobile = useIsMobile();
+  return (
+  <footer style={{ background: 'var(--ink-900)', color: 'white', padding: isMobile ? '60px 20px 40px' : '100px 40px 40px' }}>
     <div style={{ maxWidth: 1360, margin: '0 auto' }}>
       {/* Big CTA */}
       <div style={{
         background: 'var(--amper-yellow)', color: 'var(--ink-900)',
-        borderRadius: 28, padding: '64px 48px',
-        display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: 40, alignItems: 'center',
-        marginBottom: 80,
+        borderRadius: 28, padding: isMobile ? '40px 24px' : '64px 48px',
+        display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: isMobile ? 24 : 40, alignItems: 'center',
+        marginBottom: isMobile ? 56 : 80,
       }}>
         <div>
-          <h2 style={{ fontSize: 64, lineHeight: 0.98, letterSpacing: '-0.035em', fontWeight: 700 }}>
+          <h2 style={{ fontSize: isMobile ? 38 : 64, lineHeight: 0.98, letterSpacing: '-0.035em', fontWeight: 700 }}>
             Pronto para vender<br/>sem dor de cabeça?
           </h2>
         </div>
-        <div style={{ textAlign: 'right' }}>
-          <p style={{ fontSize: 17, lineHeight: 1.5, color: 'var(--ink-800)', marginBottom: 28, maxWidth: 360, marginLeft: 'auto' }}>
+        <div style={{ textAlign: isMobile ? 'left' : 'right' }}>
+          <p style={{ fontSize: 17, lineHeight: 1.5, color: 'var(--ink-800)', marginBottom: 28, maxWidth: 360, marginLeft: isMobile ? 0 : 'auto' }}>
             Avaliação em 60 segundos. Sem cadastro, sem compromisso.
           </p>
           <button className="btn btn-dark btn-lg" onClick={onStart}>
@@ -275,7 +288,7 @@ const Footer = ({ onStart }) => (
       </div>
 
       {/* Columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr 1fr', gap: 40, marginBottom: 60 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : '1.4fr 1fr 1fr 1fr 1fr', gap: isMobile ? 24 : 40, marginBottom: 60 }}>
         <div>
           <AmperLogo size={26} color="white"/>
           <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', marginTop: 20, maxWidth: 280, lineHeight: 1.55 }}>
@@ -313,6 +326,7 @@ const Footer = ({ onStart }) => (
       </div>
     </div>
   </footer>
-);
+  );
+};
 
 Object.assign(window, { LiveSales, Comparativo, FAQ, Partners, Blog, Footer });

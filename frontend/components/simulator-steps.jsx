@@ -1,16 +1,17 @@
 /* global React, Icon, AmperLogo, fmtBRL, fmtBRLShort, FIPE, YEARS, CONDITIONS, estimatePrice, amperOffer, sampleListings */
 
 const SimulatorNav = ({ onExit, step, totalSteps, onStepClick, completedSteps }) => {
+  const isMobile = useIsMobile();
   const stepLabels = ['Marca', 'Modelo', 'Ano', 'Versão', 'Detalhes'];
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 30,
       background: 'var(--paper)', borderBottom: '1px solid var(--ink-100)',
     }}>
-      <div style={{ maxWidth: 1360, margin: '0 auto', padding: '16px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
+      <div style={{ maxWidth: 1360, margin: '0 auto', padding: isMobile ? '12px 20px' : '16px 40px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: isMobile ? 12 : 24 }}>
         <AmperLogo size={24}/>
 
-        <div style={{ flex: 1, maxWidth: 560, margin: '0 40px' }}>
+        <div style={{ flex: 1, maxWidth: 560, margin: isMobile ? '0 12px' : '0 40px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--ink-500)', marginBottom: 10, fontWeight: 600 }}>
             <span>Avaliação</span>
             <span className="mono">Passo {step} / {totalSteps}</span>
@@ -55,7 +56,7 @@ const SimulatorNav = ({ onExit, step, totalSteps, onStepClick, completedSteps })
                         : n
                       }
                     </span>
-                    <span>{stepLabels[i]}</span>
+                    {!isMobile && <span>{stepLabels[i]}</span>}
                   </button>
                   {n < totalSteps && (
                     <div style={{
@@ -78,19 +79,21 @@ const SimulatorNav = ({ onExit, step, totalSteps, onStepClick, completedSteps })
   );
 };
 
-const StepShell = ({ title, subtitle, children, onBack, onNext, nextLabel = 'Continuar', nextDisabled, aside }) => (
+const StepShell = ({ title, subtitle, children, onBack, onNext, nextLabel = 'Continuar', nextDisabled, aside }) => {
+  const isMobile = useIsMobile();
+  return (
   <div style={{
     maxWidth: 1100, margin: '0 auto',
-    padding: '56px 40px 100px',
+    padding: isMobile ? '32px 20px 80px' : '56px 40px 100px',
     display: 'grid',
-    gridTemplateColumns: aside ? '1fr 380px' : '1fr',
-    gap: 48,
+    gridTemplateColumns: aside && !isMobile ? '1fr 380px' : '1fr',
+    gap: isMobile ? 28 : 48,
   }}>
     <div>
-      <h1 style={{ fontSize: 44, lineHeight: 1.05, letterSpacing: '-0.03em', fontWeight: 700, marginBottom: 12 }}>{title}</h1>
-      {subtitle && <p style={{ fontSize: 17, color: 'var(--ink-600)', marginBottom: 40, lineHeight: 1.5 }}>{subtitle}</p>}
+      <h1 style={{ fontSize: isMobile ? 30 : 44, lineHeight: 1.05, letterSpacing: '-0.03em', fontWeight: 700, marginBottom: 12 }}>{title}</h1>
+      {subtitle && <p style={{ fontSize: isMobile ? 15 : 17, color: 'var(--ink-600)', marginBottom: isMobile ? 28 : 40, lineHeight: 1.5 }}>{subtitle}</p>}
       {children}
-      <div style={{ display: 'flex', gap: 12, marginTop: 40 }}>
+      <div style={{ display: 'flex', gap: 12, marginTop: isMobile ? 28 : 40 }}>
         {onBack && <button onClick={onBack} className="btn btn-ghost btn-lg">Voltar</button>}
         {onNext && (
           <button onClick={onNext} disabled={nextDisabled} className="btn btn-primary btn-lg" style={{ opacity: nextDisabled ? 0.4 : 1, cursor: nextDisabled ? 'not-allowed' : 'pointer' }}>
@@ -101,10 +104,12 @@ const StepShell = ({ title, subtitle, children, onBack, onNext, nextLabel = 'Con
     </div>
     {aside && <aside>{aside}</aside>}
   </div>
-);
+  );
+};
 
 // --- Step: Brand picker ---
 const BrandStep = ({ value, onSelect }) => {
+  const isMobile = useIsMobile();
   const [q, setQ] = React.useState('');
   const list = FIPE.brands.filter(b => b.name.toLowerCase().includes(q.toLowerCase()));
   return (
@@ -121,7 +126,7 @@ const BrandStep = ({ value, onSelect }) => {
           }}
         />
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: 12 }}>
         {list.map(b => {
           const active = value === b.id;
           return (
@@ -150,9 +155,10 @@ const BrandStep = ({ value, onSelect }) => {
 
 // --- Step: Model ---
 const ModelStep = ({ brand, value, onSelect }) => {
+  const isMobile = useIsMobile();
   const models = FIPE.models[brand] || [];
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)', gap: 12 }}>
       {models.map(m => {
         const active = value === m;
         const price = FIPE.basePrice[`${brand}-${m}`] || 90000;
@@ -173,8 +179,10 @@ const ModelStep = ({ brand, value, onSelect }) => {
 };
 
 // --- Step: Year ---
-const YearStep = ({ value, onSelect }) => (
-  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 10 }}>
+const YearStep = ({ value, onSelect }) => {
+  const isMobile = useIsMobile();
+  return (
+  <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(3, 1fr)' : 'repeat(5, 1fr)', gap: 10 }}>
     {YEARS.map(y => {
       const active = value === y;
       return (
@@ -188,7 +196,8 @@ const YearStep = ({ value, onSelect }) => (
       );
     })}
   </div>
-);
+  );
+};
 
 // --- Step: Version ---
 const VersionStep = ({ brand, model, value, onSelect }) => {
@@ -271,6 +280,7 @@ const DetailsStep = ({ km, setKm, condition, setCondition }) => (
 
 // --- Step: AI Analyzing ---
 const AnalyzingStep = () => {
+  const isMobile = useIsMobile();
   const [phase, setPhase] = React.useState(0);
   const phases = [
     'Identificando versão e especificações…',
@@ -286,7 +296,7 @@ const AnalyzingStep = () => {
     }
   }, [phase]);
   return (
-    <div style={{ padding: '80px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+    <div style={{ padding: isMobile ? '48px 0' : '80px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
       <div style={{ position: 'relative', width: 120, height: 120, marginBottom: 40 }}>
         <svg viewBox="0 0 120 120" style={{ position: 'absolute', inset: 0 }}>
           <circle cx="60" cy="60" r="52" stroke="var(--ink-100)" strokeWidth="8" fill="none"/>
@@ -298,7 +308,7 @@ const AnalyzingStep = () => {
           <Icon.Sparkle width={40} height={40}/>
         </div>
       </div>
-      <h2 style={{ fontSize: 36, fontWeight: 700, letterSpacing: '-0.025em', marginBottom: 32 }}>
+      <h2 style={{ fontSize: isMobile ? 25 : 36, fontWeight: 700, letterSpacing: '-0.025em', marginBottom: 32 }}>
         Analisando o mercado para você…
       </h2>
       <div style={{ width: '100%', maxWidth: 460 }}>
@@ -329,10 +339,11 @@ const AnalyzingStep = () => {
 
 // Aside: live summary
 const Summary = ({ brand, model, year, version, km, condition }) => {
+  const isMobile = useIsMobile();
   const b = FIPE.brands.find(x => x.id === brand);
   const cond = CONDITIONS.find(x => x.id === condition);
   return (
-    <div className="card" style={{ padding: 24, position: 'sticky', top: 120, border: '1px solid var(--ink-100)' }}>
+    <div className="card" style={{ padding: isMobile ? 18 : 24, position: isMobile ? 'static' : 'sticky', top: 120, border: '1px solid var(--ink-100)' }}>
       <div className="label" style={{ marginBottom: 12 }}>Resumo</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {[

@@ -2,6 +2,7 @@
 
 // Schedule inspection page (after accepting offer)
 const Schedule = ({ offer, data, onConfirm, onBack }) => {
+  const isMobile = useIsMobile();
   const [mode, setMode] = React.useState('casa');
   const [date, setDate] = React.useState(2);
   const [slot, setSlot] = React.useState(1);
@@ -24,15 +25,15 @@ const Schedule = ({ offer, data, onConfirm, onBack }) => {
   const canConfirm = name && phone.length >= 10 && (mode === 'loja' || cep.length >= 8);
 
   return (
-    <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px 40px 100px' }}>
+    <div style={{ maxWidth: 1200, margin: '0 auto', padding: isMobile ? '32px 20px 80px' : '48px 40px 100px' }}>
       <button onClick={onBack} style={{ fontSize: 14, color: 'var(--ink-500)', display: 'flex', alignItems: 'center', gap: 6, marginBottom: 24 }}>
         ← Voltar para a oferta
       </button>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 400px', gap: 40 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 400px', gap: isMobile ? 28 : 40 }}>
         <div>
           <span className="chip chip-yellow" style={{ marginBottom: 16 }}><Icon.Check width={12} height={12}/> Oferta aceita</span>
-          <h1 style={{ fontSize: 42, lineHeight: 1.05, letterSpacing: '-0.03em', fontWeight: 700, marginBottom: 12 }}>
+          <h1 style={{ fontSize: isMobile ? 30 : 42, lineHeight: 1.05, letterSpacing: '-0.03em', fontWeight: 700, marginBottom: 12 }}>
             Agende sua vistoria gratuita.
           </h1>
           <p style={{ fontSize: 16, color: 'var(--ink-600)', marginBottom: 40, lineHeight: 1.5 }}>
@@ -41,7 +42,7 @@ const Schedule = ({ offer, data, onConfirm, onBack }) => {
 
           {/* Mode */}
           <div className="label" style={{ marginBottom: 12 }}>Onde prefere?</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 36 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 12, marginBottom: 36 }}>
             {[
               { id: 'casa', icon: <Icon.Home/>, title: 'Na sua casa ou trabalho', sub: 'Grátis · avaliador vai até você' },
               { id: 'loja', icon: <Icon.MapPin/>, title: 'Em uma loja parceira', sub: '120+ pontos · horários ampliados' },
@@ -72,7 +73,7 @@ const Schedule = ({ offer, data, onConfirm, onBack }) => {
 
           {/* Date */}
           <div className="label" style={{ marginBottom: 12 }}>Data</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 8, marginBottom: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(4, 1fr)' : 'repeat(7, 1fr)', gap: 8, marginBottom: 24 }}>
             {dates.map((d, i) => {
               const active = date === i;
               return (
@@ -93,7 +94,7 @@ const Schedule = ({ offer, data, onConfirm, onBack }) => {
 
           {/* Slot */}
           <div className="label" style={{ marginBottom: 12 }}>Horário</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 8, marginBottom: 36 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)', gap: 8, marginBottom: 36 }}>
             {slots.map((s, i) => {
               const active = slot === i;
               return (
@@ -109,7 +110,7 @@ const Schedule = ({ offer, data, onConfirm, onBack }) => {
 
           {/* Contact */}
           <div className="label" style={{ marginBottom: 12 }}>Seus dados</div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 12, marginBottom: 12 }}>
             <input placeholder="Nome completo" value={name} onChange={(e) => setName(e.target.value)} style={inputStyle}/>
             <input placeholder="(11) 99999-9999" value={phone} onChange={(e) => setPhone(e.target.value.replace(/\D/g,'').slice(0,11))} style={inputStyle}/>
           </div>
@@ -168,9 +169,10 @@ const inputStyle = {
 
 // Success page
 const Success = ({ data, offer, onRestart }) => {
+  const isMobile = useIsMobile();
   const brand = FIPE.brands.find(b => b.id === data.brand);
   return (
-    <div style={{ maxWidth: 720, margin: '0 auto', padding: '100px 40px', textAlign: 'center' }}>
+    <div style={{ maxWidth: 720, margin: '0 auto', padding: isMobile ? '64px 20px' : '100px 40px', textAlign: 'center' }}>
       <div style={{
         width: 96, height: 96, borderRadius: '50%', background: 'var(--amper-yellow)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -178,7 +180,7 @@ const Success = ({ data, offer, onRestart }) => {
       }}>
         <Icon.Check width={48} height={48}/>
       </div>
-      <h1 style={{ fontSize: 52, lineHeight: 1.02, letterSpacing: '-0.03em', fontWeight: 700, marginBottom: 16 }}>
+      <h1 style={{ fontSize: isMobile ? 34 : 52, lineHeight: 1.02, letterSpacing: '-0.03em', fontWeight: 700, marginBottom: 16 }}>
         Vistoria agendada!
       </h1>
       <p style={{ fontSize: 18, color: 'var(--ink-600)', lineHeight: 1.5, marginBottom: 24, maxWidth: 500, margin: '0 auto 24px' }}>

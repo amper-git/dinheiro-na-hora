@@ -2,6 +2,7 @@
 
 /* ---------- HOW IT WORKS ---------- */
 const HowItWorks = ({ onStart }) => {
+  const isMobile = useIsMobile();
   const steps = [
     {
       n: '01',
@@ -29,12 +30,12 @@ const HowItWorks = ({ onStart }) => {
     },
   ];
   return (
-    <section id="como-funciona" style={{ padding: '120px 40px', background: 'var(--paper)' }}>
+    <section id="como-funciona" style={{ padding: isMobile ? '64px 20px' : '120px 40px', background: 'var(--paper)' }}>
       <div style={{ maxWidth: 1360, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.3fr', gap: 80, marginBottom: 64 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.3fr', gap: isMobile ? 24 : 80, marginBottom: isMobile ? 36 : 64 }}>
           <div>
             <span className="chip chip-outline" style={{ marginBottom: 20 }}>Como funciona</span>
-            <h2 style={{ fontSize: 64, lineHeight: 0.98, letterSpacing: '-0.03em', fontWeight: 700 }}>
+            <h2 style={{ fontSize: isMobile ? 40 : 64, lineHeight: 0.98, letterSpacing: '-0.03em', fontWeight: 700 }}>
               Vendemos pelo <span className="hl">melhor preço</span><br/>de forma rápida e segura.
             </h2>
           </div>
@@ -45,14 +46,15 @@ const HowItWorks = ({ onStart }) => {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--ink-100)', borderRadius: 24, overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', gap: 0, border: '1px solid var(--ink-100)', borderRadius: 24, overflow: 'hidden' }}>
           {steps.map((s, i) => (
             <div key={i} style={{
-              padding: '36px 28px 32px',
-              borderRight: i < 3 ? '1px solid var(--ink-100)' : 'none',
+              padding: isMobile ? '28px 24px 24px' : '36px 28px 32px',
+              borderRight: !isMobile && i < 3 ? '1px solid var(--ink-100)' : 'none',
+              borderBottom: isMobile && i < 3 ? '1px solid var(--ink-100)' : 'none',
               background: 'var(--paper)',
               position: 'relative',
-              minHeight: 280,
+              minHeight: isMobile ? 'auto' : 280,
             }}>
               <div className="mono" style={{ fontSize: 12, color: 'var(--ink-400)', letterSpacing: '0.1em', marginBottom: 28 }}>
                 STEP / {s.n}
@@ -83,6 +85,7 @@ const HowItWorks = ({ onStart }) => {
 
 /* ---------- DIFFERENTIALS ---------- */
 const Differentials = () => {
+  const isMobile = useIsMobile();
   const items = [
     {
       title: 'Venda por mais',
@@ -118,32 +121,32 @@ const Differentials = () => {
     },
   ];
   return (
-    <section id="diferenciais" style={{ padding: '120px 40px', background: 'var(--surface-warm)' }}>
+    <section id="diferenciais" style={{ padding: isMobile ? '64px 20px' : '120px 40px', background: 'var(--surface-warm)' }}>
       <div style={{ maxWidth: 1360, margin: '0 auto' }}>
-        <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between', marginBottom: 56, gap: 40, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'space-between', marginBottom: isMobile ? 36 : 56, gap: 40, flexWrap: 'wrap' }}>
           <div>
             <span className="chip chip-outline" style={{ marginBottom: 20 }}>Por que Amper</span>
-            <h2 style={{ fontSize: 64, lineHeight: 0.98, letterSpacing: '-0.03em', fontWeight: 700, maxWidth: 720 }}>
+            <h2 style={{ fontSize: isMobile ? 40 : 64, lineHeight: 0.98, letterSpacing: '-0.03em', fontWeight: 700, maxWidth: 720 }}>
               Justo com você.<br/>Brutal com a <span className="hl">burocracia</span>.
             </h2>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(6, 1fr)', gap: 16 }}>
           {/* big card */}
           <div style={{
-            gridColumn: 'span 3', gridRow: 'span 2',
+            gridColumn: isMobile ? 'auto' : 'span 3', gridRow: isMobile ? 'auto' : 'span 2',
             background: 'var(--ink-900)', color: 'white',
-            borderRadius: 24, padding: 40,
+            borderRadius: 24, padding: isMobile ? 28 : 40,
             display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-            minHeight: 420, position: 'relative', overflow: 'hidden',
+            minHeight: isMobile ? 'auto' : 420, position: 'relative', overflow: 'hidden',
           }}>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
                 <span className="chip chip-yellow"><Icon.Sparkle width={12} height={12}/> Concierge</span>
                 <span className="mono" style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>AMPER</span>
               </div>
-              <h3 style={{ fontSize: 42, lineHeight: 1, letterSpacing: '-0.025em', fontWeight: 600, maxWidth: 380, marginBottom: 18 }}>
+              <h3 style={{ fontSize: isMobile ? 30 : 42, lineHeight: 1, letterSpacing: '-0.025em', fontWeight: 600, maxWidth: 380, marginBottom: 18 }}>
                 {items[0].title}
               </h3>
               <p style={{ fontSize: 16, lineHeight: 1.55, color: 'rgba(255,255,255,0.7)', maxWidth: 380 }}>
@@ -154,7 +157,7 @@ const Differentials = () => {
             {/* mini chart */}
             <div style={{ marginTop: 36 }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 16 }}>
-                <div style={{ fontSize: 64, fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--amper-yellow)' }}>+10%</div>
+                <div style={{ fontSize: isMobile ? 44 : 64, fontWeight: 700, letterSpacing: '-0.03em', color: 'var(--amper-yellow)' }}>+10%</div>
                 <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)' }}>a mais que concessionária</div>
               </div>
               <svg viewBox="0 0 400 80" width="100%" height="80">
@@ -168,8 +171,8 @@ const Differentials = () => {
 
           {items.slice(1).map((it, i) => (
             <div key={i} style={{
-              gridColumn: 'span 3',
-              background: 'var(--paper)', borderRadius: 20, padding: 28,
+              gridColumn: isMobile ? 'auto' : 'span 3',
+              background: 'var(--paper)', borderRadius: 20, padding: isMobile ? 24 : 28,
               border: '1px solid var(--ink-100)',
               display: 'flex', gap: 20, alignItems: 'flex-start',
             }}>
@@ -195,6 +198,7 @@ const Differentials = () => {
 
 /* ---------- SOCIAL PROOF ---------- */
 const Testimonials = () => {
+  const isMobile = useIsMobile();
   const quotes = [
     {
       text: 'Vendi meu Corolla em 5 dias. A oferta da Amper foi R$ 6.500 maior que a melhor proposta que recebi em loja.',
@@ -210,10 +214,10 @@ const Testimonials = () => {
     },
   ];
   return (
-    <section style={{ padding: '120px 40px', background: 'var(--paper)' }}>
+    <section style={{ padding: isMobile ? '64px 20px' : '120px 40px', background: 'var(--paper)' }}>
       <div style={{ maxWidth: 1360, margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: 56, flexWrap: 'wrap', gap: 24 }}>
-          <h2 style={{ fontSize: 56, lineHeight: 1, letterSpacing: '-0.03em', fontWeight: 700, maxWidth: 720 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end', marginBottom: isMobile ? 36 : 56, flexWrap: 'wrap', gap: 24 }}>
+          <h2 style={{ fontSize: isMobile ? 36 : 56, lineHeight: 1, letterSpacing: '-0.03em', fontWeight: 700, maxWidth: 720 }}>
             O que dizem quem já vendeu com a Amper.
           </h2>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
@@ -227,11 +231,11 @@ const Testimonials = () => {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 16 : 20 }}>
           {quotes.map((q, i) => (
             <div key={i} style={{
-              background: 'var(--surface)', borderRadius: 20, padding: 32,
-              display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 320,
+              background: 'var(--surface)', borderRadius: 20, padding: isMobile ? 24 : 32,
+              display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: isMobile ? 'auto' : 320,
               border: '1px solid var(--ink-100)',
             }}>
               <div>
