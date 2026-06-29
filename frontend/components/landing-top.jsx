@@ -60,9 +60,15 @@ const Hero = ({ onStart }) => {
   const [brand, setBrand] = React.useState('');
   const [model, setModel] = React.useState('');
   const [year, setYear] = React.useState('');
+  const [whatsapp, setWhatsapp] = React.useState('');
+  const [email, setEmail] = React.useState('');
 
-  const canStartPlate = plate.replace(/[^A-Z0-9]/gi, '').length >= 7;
-  const canStartManual = brand && model && year;
+  const emailOk = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  const whatsappOk = whatsapp.replace(/\D/g, '').length >= 10;
+  const canContact = emailOk && whatsappOk;
+
+  const canStartPlate = plate.replace(/[^A-Z0-9]/gi, '').length >= 7 && canContact;
+  const canStartManual = brand && model && year && canContact;
 
   const handlePlate = (e) => {
     let v = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 7);
@@ -70,12 +76,22 @@ const Hero = ({ onStart }) => {
     setPlate(v);
   };
 
+  const handlePhone = (e) => {
+    const d = e.target.value.replace(/\D/g, '').slice(0, 11);
+    let out = d;
+    if (d.length > 2) out = `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length > 7) out = `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+    setWhatsapp(out);
+  };
+
   const startPlate = () => {
     if (!canStartPlate) return;
+    window.AmperLeads && window.AmperLeads.saveLead({ whatsapp, email, plate, source: 'hero-placa' });
     onStart({ mode: 'placa', plate });
   };
   const startManual = () => {
     if (!canStartManual) return;
+    window.AmperLeads && window.AmperLeads.saveLead({ whatsapp, email, brand, model, year, source: 'hero-manual' });
     onStart({ mode: 'manual', brand, model, year });
   };
 
@@ -90,22 +106,26 @@ const Hero = ({ onStart }) => {
 
       <div style={{ maxWidth: 1360, margin: '0 auto', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.05fr 0.95fr', gap: isMobile ? 36 : 64, alignItems: 'center' }}>
         {/* Left: headline */}
-        <div>
+        <div style={{ minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
             <span className="chip chip-dark"><Icon.Sparkle width={12} height={12}/> Amper</span>
             <span style={{ fontSize: 13, color: 'var(--ink-500)' }}>Venda sem sair de casa</span>
           </div>
 
           <h1 style={{
-            fontSize: isMobile ? 'clamp(34px, 9vw, 46px)' : 'clamp(52px, 5.8vw, 92px)',
-            lineHeight: isMobile ? 1.02 : 0.95,
+            fontSize: isMobile ? 'clamp(30px, 8vw, 42px)' : 'clamp(52px, 5.8vw, 92px)',
+            lineHeight: isMobile ? 1.08 : 0.95,
             letterSpacing: '-0.035em',
             fontWeight: 700,
             marginBottom: isMobile ? 20 : 28,
           }}>
-            Oferta Instantânea.<br/>
-            Venda com <span className="hl">Segurança</span>,<br/>
-            sem dor de cabeça. Sem Golpes.
+            {isMobile ? (
+              <>Oferta Instantânea. Venda com <span className="hl">Segurança</span>, sem dor de cabeça. Sem Golpes.</>
+            ) : (
+              <>Oferta Instantânea.<br/>
+              Venda com <span className="hl">Segurança</span>,<br/>
+              sem dor de cabeça. Sem Golpes.</>
+            )}
           </h1>
 
           <p style={{ fontSize: isMobile ? 16 : 19, lineHeight: 1.5, color: 'var(--ink-600)', maxWidth: 520, marginBottom: isMobile ? 26 : 36 }}>
@@ -129,6 +149,7 @@ const Hero = ({ onStart }) => {
 
         {/* Right: simulator card */}
         <div className="card" style={{
+          minWidth: 0,
           padding: isMobile ? 20 : 28,
           borderRadius: 24,
           boxShadow: 'var(--shadow-lift)',
@@ -170,6 +191,29 @@ const Hero = ({ onStart }) => {
             ))}
           </div>
 
+          {/* Contato — WhatsApp + email (capturado ao iniciar a avaliação) */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 18 }}>
+            <Field label="WhatsApp">
+              <input
+                value={whatsapp}
+                onChange={handlePhone}
+                inputMode="numeric"
+                placeholder="(11) 99999-9999"
+                style={contactInputStyle}
+              />
+            </Field>
+            <Field label="E-mail">
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                inputMode="email"
+                placeholder="voce@email.com"
+                style={contactInputStyle}
+              />
+            </Field>
+          </div>
+
           {tab === 'placa' ? (
             <div>
               <div className="label" style={{ marginBottom: 8 }}>Placa</div>
@@ -193,8 +237,8 @@ const Hero = ({ onStart }) => {
                   style={{
                     border: 0, outline: 0, background: 'transparent',
                     fontFamily: 'var(--font-mono)',
-                    fontSize: 30, fontWeight: 700, letterSpacing: '0.12em',
-                    flex: 1, textAlign: 'center',
+                    fontSize: isMobile ? 24 : 30, fontWeight: 700, letterSpacing: '0.1em',
+                    flex: 1, minWidth: 0, textAlign: 'center',
                   }}
                 />
               </div>
@@ -279,6 +323,13 @@ const selStyle = {
   backgroundImage: 'url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\'%3E%3Cpath d=\'M1 1.5L6 6.5L11 1.5\' stroke=\'%230A0A0A\' stroke-width=\'1.6\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E")',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'right 14px center',
+};
+
+const contactInputStyle = {
+  width: '100%', height: 48, padding: '0 14px',
+  border: '1px solid var(--ink-200)', borderRadius: 10,
+  background: 'white', fontSize: 15, fontWeight: 500,
+  outline: 'none',
 };
 
 const Field = ({ label, children }) => (
