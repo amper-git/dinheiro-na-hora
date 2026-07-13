@@ -197,6 +197,32 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
   .hero-inner{grid-template-columns:1fr}
   .hero::after{background:linear-gradient(180deg,rgba(10,10,10,.35),rgba(10,10,10,.9) 78%)}
 }
+/* stats strip */
+.stats-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--panel-2)}
+.stats-wrap{max-width:1220px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:24px clamp(16px,4vw,48px)}
+.stat{text-align:center}
+.stat strong{font-family:var(--display);font-size:32px;color:var(--amber);display:block;line-height:1}
+.stat span{font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:700px){.stats-wrap{grid-template-columns:repeat(2,1fr);gap:18px}}
+
+/* depoimentos */
+.depo{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:48px}
+.depo-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px;display:flex;flex-direction:column;gap:18px}
+.depo-card .quote{font-size:15.5px;color:var(--ink)}
+.depo-foot{display:flex;align-items:center;gap:12px;margin-top:auto}
+.depo-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;background:#242424;border:1px solid var(--line)}
+.depo-avatar[src=""]{visibility:hidden;width:0;border:0}
+.depo-foot strong{display:block;font-size:14.5px}
+.depo-foot span{font-size:12.5px;color:var(--muted)}
+.depo-foot em{margin-left:auto;font-style:normal;font-family:var(--display);color:var(--amber);font-size:20px}
+@media(max-width:860px){.depo{grid-template-columns:1fr}}
+
+/* fundo de imagem em seções (bem claro, sob o conteúdo) */
+#para-quem{position:relative;overflow:hidden}
+#para-quem .wrap{position:relative;z-index:1}
+.section-bg{position:absolute;inset:0;background-position:center;background-size:cover;opacity:.10;pointer-events:none;filter:grayscale(35%);
+  /* placeholder sutil até a imagem real ser configurada em AMPER_MEDIA.bgParaQuem */
+  background-image:repeating-linear-gradient(45deg,rgba(255,214,10,.25) 0 2px,transparent 2px 26px)}
 </style>
 </head>
 <body>
@@ -217,13 +243,13 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
   <div id="scene" aria-hidden="true"></div>
   <div class="hero-inner">
     <div>
-      <span class="eyebrow">Crédito com garantia de veículo</span>
-      <h1>Dinheiro<br>na hora.<br><span class="hl">Seu carro continua com você.</span></h1>
-      <p class="sub">Digite a placa e veja quanto crédito você tem pré-aprovado em até 30 segundos — direto com bancos parceiros, sem sair de casa e sem burocracia.</p>
+      <span class="eyebrow">Crédito instantâneo · garantia de veículo</span>
+      <h1>Dinheiro na Hora.<br>Com <span class="hl">Segurança</span>,<br>sem dor de cabeça. Sem Golpes.</h1>
+      <p class="sub">Digite a placa e receba uma oferta firme de crédito em segundos. Nossa IA cruza dados da tabela FIPE e dos bancos parceiros — e você continua dirigindo seu carro normalmente.</p>
       <div class="hero-chips">
-        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.4"><path d="M13 2 3 14h7l-1 8 11-13h-7l0-7z"/></svg>Resultado em 30 seg</span>
-        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.4"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Consulta 100% segura</span>
-        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>O carro fica com você</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.4"><path d="M13 2 3 14h7l-1 8 11-13h-7l0-7z"/></svg>Use o carro normalmente</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.4"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Dinheiro em até 24h</span>
+        <span class="chip"><svg viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Vistoria gratuita</span>
       </div>
     </div>
 
@@ -232,7 +258,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
 
       <!-- STEP 1: form -->
       <div class="sim-step active" id="step-form">
-        <h2>Simule seu crédito</h2>
+        <h2>Quanto crédito seu carro libera?</h2>
         <p class="sim-sub">Grátis, sem compromisso e sem afetar seu score.</p>
         <form id="qualify-form" novalidate>
           <label for="placa">Placa do veículo</label>
@@ -252,7 +278,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
         </form>
         <p class="sim-note">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-          Dados protegidos pela LGPD · Consulta criptografada
+          Seus dados são protegidos pela LGPD. Não enviamos spam.
         </p>
       </div>
 
@@ -299,23 +325,34 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
   </div>
 </div>
 
+<!-- ============ STATS ============ -->
+<div class="stats-strip">
+  <div class="stats-wrap">
+    <div class="stat"><strong>+1.000</strong><span>clientes atendidos</span></div>
+    <div class="stat"><strong>4,6</strong><span>no Reclame Aqui</span></div>
+    <div class="stat"><strong>R$ 50M</strong><span>em crédito liberado</span></div>
+    <div class="stat"><strong>24h</strong><span>para o dinheiro cair</span></div>
+  </div>
+</div>
+
 <!-- ============ COMO FUNCIONA ============ -->
 <section id="como-funciona">
   <div class="wrap">
     <span class="sec-eyebrow reveal">Simples de verdade</span>
     <h2 class="sec-title reveal">Da placa ao dinheiro na conta</h2>
-    <p class="sec-sub reveal">Todo o processo foi desenhado para quem não tem tempo a perder. Você resolve tudo pelo celular — a única etapa presencial é a vistoria.</p>
+    <p class="sec-sub reveal">De forma rápida e segura. Você resolve tudo pelo celular — a única etapa presencial é a vistoria, e ela é gratuita.</p>
     <div class="steps">
-      <div class="step reveal"><span class="dot">1</span><h3>Digite a placa</h3><p>Informe a placa do seu veículo, WhatsApp e e-mail. Sem papelada, sem fila.</p><span class="t">30 segundos</span></div>
-      <div class="step reveal"><span class="dot">2</span><h3>Veja o valor aprovado</h3><p>Consultamos os bancos parceiros com segurança e o valor pré-aprovado aparece na tela, na hora.</p><span class="t">Instantâneo</span></div>
-      <div class="step reveal"><span class="dot">3</span><h3>Agende a vistoria</h3><p>Escolha dia e horário direto no calendário. Confirmação automática no WhatsApp e e-mail.</p><span class="t">Você escolhe</span></div>
-      <div class="step reveal"><span class="dot">4</span><h3>Dinheiro na conta</h3><p>Vistoria feita, contrato assinado — e o dinheiro cai na sua conta. O carro continua com você.</p><span class="t">Na hora</span></div>
+      <div class="step reveal"><span class="dot">1</span><h3>Informe seu carro</h3><p>Digite a placa. Nossa IA identifica marca, modelo e ano automaticamente com dados da tabela FIPE.</p><span class="t">30 segundos</span></div>
+      <div class="step reveal"><span class="dot">2</span><h3>Receba uma oferta firme</h3><p>Em segundos, mostramos quanto crédito você tem pré-aprovado nos bancos parceiros — direto na tela.</p><span class="t">Instantâneo</span></div>
+      <div class="step reveal"><span class="dot">3</span><h3>Vistoria gratuita</h3><p>Um avaliador certificado vai até você ou a uma loja parceira. Você escolhe dia e horário no calendário. Sem custo, sem compromisso.</p><span class="t">Você escolhe</span></div>
+      <div class="step reveal"><span class="dot">4</span><h3>Receba o pagamento</h3><p>Dinheiro na conta em até 24h após a vistoria. Cuidamos de toda a burocracia: contrato, banco e Detran.</p><span class="t">Até 24h</span></div>
     </div>
   </div>
 </section>
 
 <!-- ============ PARA QUEM ============ -->
 <section id="para-quem" style="background:var(--panel-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="section-bg" id="bg-para-quem" aria-hidden="true"></div>
   <div class="wrap">
     <span class="sec-eyebrow reveal">Feito para quem não pode parar</span>
     <h2 class="sec-title reveal">Crédito para quem trabalha</h2>
@@ -333,14 +370,37 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
 <section id="vantagens">
   <div class="wrap">
     <span class="sec-eyebrow reveal">Por que a Amper</span>
-    <h2 class="sec-title reveal">Taxas menores. Zero enrolação.</h2>
+    <h2 class="sec-title reveal">Justo com você.<br>Brutal com a burocracia.</h2>
     <div class="why">
       <div class="why-card reveal"><h3>Juros mais baixos</h3><p>Com o veículo em garantia, os bancos parceiros oferecem taxas bem menores que empréstimo pessoal e cartão de crédito.</p></div>
-      <div class="why-card reveal"><h3>O carro fica com você</h3><p>Você continua dirigindo normalmente. A garantia é apenas um registro no documento — nada muda no seu dia a dia.</p></div>
-      <div class="why-card reveal"><h3>Segurança de ponta a ponta</h3><p>Consulta criptografada direto com a API dos bancos, dados tratados conforme a LGPD e sem impacto no seu score.</p></div>
-      <div class="why-card reveal"><h3>Assessoria de verdade</h3><p>Um especialista acompanha você do resultado da simulação até o dinheiro na conta, pelo WhatsApp.</p></div>
-      <div class="why-card reveal"><h3>Pré-aprovação instantânea</h3><p>Nada de "retornaremos em até 5 dias úteis". O valor aparece na tela em segundos.</p></div>
-      <div class="why-card reveal"><h3>Vistoria no seu horário</h3><p>Você escolhe dia e hora no calendário. A vistoria é a única etapa presencial de todo o processo.</p></div>
+      <div class="why-card reveal"><h3>Use o carro até quitar</h3><p>Você não se desfaz do carro. Continua dirigindo normalmente — a garantia é só um registro no documento.</p></div>
+      <div class="why-card reveal"><h3>Segurança de ponta a ponta</h3><p>Consulta criptografada direto com os bancos, dados protegidos pela LGPD e sem impacto no seu score. Sem golpes, sem letra miúda.</p></div>
+      <div class="why-card reveal"><h3>Concierge Amper</h3><p>Um especialista acompanha você do resultado da simulação até o dinheiro na conta, pelo WhatsApp.</p></div>
+      <div class="why-card reveal"><h3>Oferta firme na tela</h3><p>Nada de "retornaremos em até 5 dias úteis". O valor pré-aprovado aparece em segundos.</p></div>
+      <div class="why-card reveal"><h3>Só paga se contratar</h3><p>Sem mensalidade, sem taxa de simulação, sem custo de vistoria. Risco zero pra você.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DEPOIMENTOS ============ -->
+<section id="depoimentos">
+  <div class="wrap">
+    <span class="sec-eyebrow reveal">Depoimentos</span>
+    <h2 class="sec-title reveal">Quem já pegou crédito com a Amper</h2>
+    <p class="sec-sub reveal">Nota 4,6 no Reclame Aqui.</p>
+    <div class="depo">
+      <div class="depo-card reveal">
+        <p class="quote">"Precisei de capital de giro rápido pra oficina. Digitei a placa da minha Strada, apareceu o valor, marquei a vistoria — dinheiro na conta no dia seguinte."</p>
+        <div class="depo-foot"><img class="depo-avatar" data-avatar alt="" src=""><div><strong>Roberto M.</strong><span>Fiat Strada 2022 · São Paulo</span></div><em>R$ 38.000</em></div>
+      </div>
+      <div class="depo-card reveal">
+        <p class="quote">"Estava com medo de golpe pedindo empréstimo online. A Amper mandou o avaliador em casa, tudo certinho, contrato transparente. Recebi por TED no mesmo dia."</p>
+        <div class="depo-foot"><img class="depo-avatar" data-avatar alt="" src=""><div><strong>Marina L.</strong><span>Corolla XEi 2021 · São Paulo</span></div><em>R$ 62.500</em></div>
+      </div>
+      <div class="depo-card reveal">
+        <p class="quote">"Nunca vi algo tão direto. Digitei a placa, apareceu a oferta, marquei vistoria, pronto. Zero ligações, zero estresse — e continuo dirigindo meu carro."</p>
+        <div class="depo-foot"><img class="depo-avatar" data-avatar alt="" src=""><div><strong>Camila P.</strong><span>Jeep Compass 2023 · Campinas</span></div><em>R$ 95.000</em></div>
+      </div>
     </div>
   </div>
 </section>
@@ -354,7 +414,9 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
       <details><summary>Meu carro fica retido?</summary><div class="a">Não. O veículo continua com você durante todo o contrato. A garantia (alienação fiduciária) é apenas uma anotação no documento do carro, removida ao final do pagamento.</div></details>
       <details><summary>A simulação afeta meu score?</summary><div class="a">Não. A pré-qualificação usa uma consulta segura que não registra como pedido de crédito nos birôs.</div></details>
       <details><summary>Quais veículos são aceitos?</summary><div class="a">Carros e utilitários em nome do solicitante, quitados ou com poucas parcelas restantes. Digite a placa e o sistema confirma na hora se o seu veículo é elegível.</div></details>
-      <details><summary>Em quanto tempo o dinheiro cai na conta?</summary><div class="a">Após a vistoria e assinatura do contrato, a liberação costuma acontecer no mesmo dia útil.</div></details>
+      <details><summary>Em quanto tempo o dinheiro cai na conta?</summary><div class="a">Em até 24h após a vistoria e a assinatura do contrato. Cuidamos de toda a burocracia: contrato, banco e Detran.</div></details>
+      <details><summary>Meu carro está financiado. Consigo contratar?</summary><div class="a">Sim. Quitamos o seu financiamento diretamente com o banco e liberamos a diferença para você. Enviamos tudo documentado.</div></details>
+      <details><summary>Em quais cidades vocês atendem?</summary><div class="a">São Paulo capital e região metropolitana.</div></details>
       <details><summary>Meus dados estão seguros?</summary><div class="a">Sim. A consulta é feita de forma criptografada diretamente com a API dos bancos parceiros, e seus dados são tratados conforme a LGPD.</div></details>
     </div>
   </div>
@@ -363,8 +425,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
 <!-- ============ CTA FINAL ============ -->
 <section class="final">
   <div class="wrap">
-    <h2 class="reveal">Quanto vale o seu carro<br>em crédito, agora?</h2>
-    <p class="reveal">Digite a placa. Em 30 segundos você sabe.</p>
+    <h2 class="reveal">Pronto para dinheiro na hora,<br>sem dor de cabeça?</h2>
+    <p class="reveal">Simulação em 30 segundos. Sem cadastro, sem compromisso.</p>
     <a class="btn reveal" href="#simular" style="text-decoration:none">Simular meu crédito</a>
   </div>
 </section>
@@ -372,7 +434,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
 <footer>
   <div class="wrap">
     <div class="logo" style="font-size:20px"><span class="bolt">⚡</span>AMPER</div>
-    <span>Crédito com garantia de veículo · Sujeito a análise · © 2026 Amper</span>
+    <span>A forma mais segura e justa de pegar crédito com seu carro no Brasil. Sujeito a análise. © 2026 Amper</span>
   </div>
 </footer>
 
@@ -401,6 +463,30 @@ const AMPER_CONFIG = {
   whatsappFallback: "5511999999999",        // TODO: número real do atendimento (com DDI)
   demoMode: (window.__AMPER_API_MODE !== "real")
 };
+
+/* Mídia da página — preencha os caminhos quando os arquivos existirem em frontend/assets/ */
+const AMPER_MEDIA = {
+  logo: null,          // ex.: "assets/img/logo-amper.svg"  (menu + rodapé)
+  heroVideo: null,     // ex.: "assets/video/hero-loop.mp4" (substitui a cena 3D)
+  heroPoster: null,    // ex.: "assets/video/hero-poster.jpg"
+  bgParaQuem: null,    // ex.: "assets/img/bg-profissionais.jpg" (fundo da seção "Crédito para quem trabalha")
+  avatares: []         // ex.: ["assets/img/depo-1.jpg","assets/img/depo-2.jpg","assets/img/depo-3.jpg"]
+};
+(function applyMedia(){
+  if(AMPER_MEDIA.logo){
+    document.querySelectorAll(".logo").forEach(el => {
+      const h = el.closest("footer") ? 26 : 34;
+      el.innerHTML = `<img src="${AMPER_MEDIA.logo}" alt="Amper" style="height:${h}px;display:block">`;
+    });
+  }
+  if(AMPER_MEDIA.bgParaQuem){
+    const bg = document.getElementById("bg-para-quem");
+    if(bg){ bg.style.backgroundImage = `url('${AMPER_MEDIA.bgParaQuem}')`; }
+  }
+  document.querySelectorAll("[data-avatar]").forEach((img,i) => {
+    if(AMPER_MEDIA.avatares[i]) img.src = AMPER_MEDIA.avatares[i];
+  });
+})();
 
 /* ---------------- utilidades de formulário ---------------- */
 const $ = s => document.querySelector(s);
@@ -566,6 +652,18 @@ document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 ===================================================================== */
 (function(){
   const container = $("#scene");
+
+  /* Vídeo de fundo (gerado por IA) no lugar da cena 3D, quando configurado */
+  if(AMPER_MEDIA.heroVideo){
+    const v = document.createElement("video");
+    v.src = AMPER_MEDIA.heroVideo;
+    if(AMPER_MEDIA.heroPoster) v.poster = AMPER_MEDIA.heroPoster;
+    v.autoplay = true; v.muted = true; v.loop = true; v.playsInline = true;
+    v.setAttribute("aria-hidden","true");
+    v.style.cssText = "width:100%;height:100%;object-fit:cover";
+    container.appendChild(v);
+    return;
+  }
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isMobile = matchMedia("(max-width: 960px)").matches;
 

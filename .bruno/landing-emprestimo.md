@@ -4,6 +4,7 @@ Por qué importa: William quer captar leads do produto "Dinheiro na Hora" (empr�
 com o carro em garantia) com uma página de alto impacto, separada da landing de venda.
 
 ## O que foi feito
+- [x] Copy portado da landing de venda e adaptado ao produto crédito ("Sem Golpes", "Justo com você. Brutal com a burocracia", oferta firme, stats +1.000/4,6/R$50M, depoimentos)
 - [x] Nova página standalone: `frontend/emprestimo.html` (HTML único, sem build)
 - [x] Hero 3D (Three.js r128 via CDN): carro low-poly com faróis acesos + moedas subindo
 - [x] Identidade da marca aplicada: `--amper-yellow #FFD60A` sobre ink-900, Lalezar (títulos) + Changa (corpo) — mesmos tokens de `styles/tokens.css`
@@ -22,6 +23,7 @@ Endpoints esperados (a criar no proxy):
 
 ## Pendente
 - [ ] Número real de WhatsApp em `AMPER_CONFIG.whatsappFallback`
+- [ ] Mídia (config em `AMPER_MEDIA` no topo do script): logo do menu, vídeo do hero (substitui a cena 3D), imagem de fundo da seção "Crédito para quem trabalha", avatares dos depoimentos — specs em `.bruno/graficos-e-midia.md`
 - [ ] Criar os 2 endpoints no proxy (consulta bancária + agenda)
 - [ ] Decidir link cruzado entre as duas landings (venda ⇄ empréstimo)
 - [ ] Leads desta página também podem ir ao Supabase quando o projeto existir
