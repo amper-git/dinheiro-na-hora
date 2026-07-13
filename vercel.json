@@ -2,7 +2,6 @@
   "cleanUrls": true,
   "rewrites": [
     { "source": "/", "destination": "/frontend/index.html" },
-    { "source": "/emprestimo", "destination": "/frontend/emprestimo.html" },
-    { "source": "/:path*", "destination": "/frontend/:path*" }
+    { "source": "/emprestimo", "destination": "/frontend/emprestimo.html" }
   ]
 }
