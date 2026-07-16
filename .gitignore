@@ -1,0 +1,5 @@
+
+# segredos backend
+service-account*.json
+*.env
+.env*

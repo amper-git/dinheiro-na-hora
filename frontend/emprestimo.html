@@ -14,8 +14,8 @@
   --panel:#1A1A1A;
   --panel-2:#141414;
   --line:rgba(255,255,255,.12);
-  --amber:#FFD60A;
-  --amber-deep:#F5C200;
+  --amber:#F3E23D;
+  --amber-deep:#E5D02B;
   --green:#10B981;
   --ink:#F7F6F3;
   --muted:#B8B8B8;
@@ -47,7 +47,7 @@ nav a{text-decoration:none;transition:color .2s}
 nav a:hover,nav a:focus-visible{color:var(--ink)}
 .header-cta{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:15px;
   background:var(--amber);color:#0A0A0A;border:none;border-radius:10px;padding:10px 18px;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .2s}
-.header-cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(255,214,10,.35)}
+.header-cta:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(243,226,61,.35)}
 @media(max-width:760px){nav{display:none}}
 
 /* ---------- Hero ---------- */
@@ -76,7 +76,7 @@ h1 .hl{color:var(--amber)}
 
 /* Mercosul plate input */
 .plate{position:relative;border-radius:10px;overflow:hidden;border:2px solid #2B2B2B;background:#fff;transition:border-color .2s,box-shadow .2s}
-.plate:focus-within{border-color:var(--amber);box-shadow:0 0 0 4px rgba(255,214,10,.18)}
+.plate:focus-within{border-color:var(--amber);box-shadow:0 0 0 4px rgba(243,226,61,.18)}
 .plate-top{display:flex;align-items:center;justify-content:space-between;background:#003399;color:#fff;font-size:10px;letter-spacing:.2em;padding:4px 10px;font-weight:600}
 .plate input{width:100%;border:none;outline:none;background:#fff;color:#101828;
   font-family:var(--display);font-weight:800;font-size:34px;text-align:center;letter-spacing:.14em;text-transform:uppercase;padding:6px 8px 8px;caret-color:var(--amber-deep)}
@@ -84,14 +84,14 @@ h1 .hl{color:var(--amber)}
 
 .field{width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;color:var(--ink);
   font-family:var(--body);font-size:16px;padding:13px 14px;outline:none;transition:border-color .2s,box-shadow .2s}
-.field:focus{border-color:var(--amber);box-shadow:0 0 0 4px rgba(255,214,10,.14)}
+.field:focus{border-color:var(--amber);box-shadow:0 0 0 4px rgba(243,226,61,.14)}
 .field::placeholder{color:#5D6B82}
 
 .btn{width:100%;margin-top:20px;border:none;border-radius:12px;cursor:pointer;
   font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:19px;padding:16px;
   background:linear-gradient(180deg,var(--amber),var(--amber-deep));color:#0A0A0A;
-  box-shadow:0 10px 30px rgba(255,214,10,.3);transition:transform .15s,box-shadow .2s,filter .2s;display:flex;align-items:center;justify-content:center;gap:10px}
-.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 16px 40px rgba(255,214,10,.42)}
+  box-shadow:0 10px 30px rgba(243,226,61,.3);transition:transform .15s,box-shadow .2s,filter .2s;display:flex;align-items:center;justify-content:center;gap:10px}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 16px 40px rgba(243,226,61,.42)}
 .btn:disabled{filter:grayscale(.5);opacity:.7;cursor:wait}
 .btn.secondary{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none;font-size:16px;padding:13px}
 .btn.secondary:hover{border-color:var(--amber);color:var(--amber)}
@@ -119,7 +119,7 @@ h1 .hl{color:var(--amber)}
 .slot{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;color:var(--ink);
   font-size:13.5px;padding:9px 4px;text-align:center;cursor:pointer;transition:all .15s;font-family:var(--body)}
 .slot small{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}
-.slot.selected{background:rgba(255,214,10,.14);border-color:var(--amber);color:var(--amber)}
+.slot.selected{background:rgba(243,226,61,.14);border-color:var(--amber);color:var(--amber)}
 .slot:hover{border-color:var(--amber)}
 .success-box{text-align:center;padding:16px 4px 6px}
 .success-box .check{width:62px;height:62px;border-radius:50%;background:rgba(16,185,129,.14);border:1px solid rgba(16,185,129,.5);
@@ -154,8 +154,8 @@ h2.sec-title{font-family:var(--display);font-weight:800;text-transform:uppercase
 .aud{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:48px}
 .aud-card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:var(--radius);
   padding:24px 20px;transition:transform .2s,border-color .2s}
-.aud-card:hover{transform:translateY(-4px);border-color:rgba(255,214,10,.5)}
-.aud-card .ic{width:44px;height:44px;border-radius:12px;background:rgba(255,214,10,.1);border:1px solid rgba(255,214,10,.3);
+.aud-card:hover{transform:translateY(-4px);border-color:rgba(243,226,61,.5)}
+.aud-card .ic{width:44px;height:44px;border-radius:12px;background:rgba(243,226,61,.1);border:1px solid rgba(243,226,61,.3);
   display:flex;align-items:center;justify-content:center;margin-bottom:14px}
 .aud-card .ic svg{width:22px;height:22px;color:var(--amber)}
 .aud-card h3{font-family:var(--display);text-transform:uppercase;font-size:19px;margin-bottom:6px}
@@ -182,7 +182,7 @@ h2.sec-title{font-family:var(--display);font-weight:800;text-transform:uppercase
 
 /* final CTA */
 .final{position:relative;text-align:center;background:
-  radial-gradient(700px 320px at 50% 0%,rgba(255,214,10,.13),transparent 70%),var(--panel-2);
+  radial-gradient(700px 320px at 50% 0%,rgba(243,226,61,.13),transparent 70%),var(--panel-2);
   border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .final h2{font-family:var(--display);font-weight:800;text-transform:uppercase;font-size:clamp(34px,5vw,62px);line-height:.98;margin-bottom:14px}
 .final p{color:var(--muted);font-size:17px;margin-bottom:28px}
@@ -229,7 +229,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
 #para-quem .wrap{position:relative;z-index:1}
 .section-bg{position:absolute;inset:0;background-position:center;background-size:cover;opacity:.10;pointer-events:none;filter:grayscale(35%);
   /* placeholder sutil até a imagem real ser configurada em AMPER_MEDIA.bgParaQuem */
-  background-image:repeating-linear-gradient(45deg,rgba(255,214,10,.25) 0 2px,transparent 2px 26px)}
+  background-image:repeating-linear-gradient(45deg,rgba(243,226,61,.25) 0 2px,transparent 2px 26px)}
 </style>
 </head>
 <body>
@@ -445,6 +445,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
   </div>
 </footer>
 
+<script src="data/leads.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* =====================================================================
@@ -543,6 +544,13 @@ $("#qualify-form").addEventListener("submit", async e => {
   let i = 0;
   const rot = setInterval(() => { $("#loading-msg").textContent = loadingMsgs[++i % loadingMsgs.length]; }, 1400);
 
+  /* salva o lead no Supabase assim que a simulação começa (mesmo padrão da home) */
+  if(window.AmperLeads){
+    window.AmperLeads.saveLead({
+      whatsapp: state.whatsapp, email: state.email, plate: state.placa, source: "emprestimo"
+    });
+  }
+
   try{
     const data = await apiPreQualificacao();
     clearInterval(rot);
@@ -637,8 +645,15 @@ $("#confirm-btn").addEventListener("click", async () => {
     }else{
       await new Promise(r => setTimeout(r, 1200));
     }
+    /* salva o agendamento no Supabase → dispara Calendar + e-mail + WhatsApp */
+    if(window.AmperLeads){
+      await window.AmperLeads.saveAgendamento({
+        whatsapp: state.whatsapp, email: state.email, plate: state.placa,
+        valor: state.valor, data: state.dia, hora: state.hora
+      });
+    }
     const [y,m,dd] = state.dia.split("-");
-    $("#done-msg").textContent = `Vistoria confirmada para ${dd}/${m} às ${state.hora}. Enviamos os detalhes no seu WhatsApp e e-mail. Depois da vistoria, o dinheiro cai na sua conta.`;
+    $("#done-msg").innerHTML = `Vistoria confirmada para <strong>${dd}/${m} às ${state.hora}</strong>. Enviamos a confirmação no seu WhatsApp e e-mail.<br><br><span style="font-size:13px;color:var(--muted)">A vistoria é uma etapa de avaliação e <strong>não garante a aprovação do crédito</strong> — o valor final depende da análise do veículo e da documentação.</span>`;
     showStep("done");
   }catch(_){
     err.innerHTML = `Não foi possível confirmar agora. <a href="https://wa.me/${AMPER_CONFIG.whatsappFallback}?text=${encodeURIComponent("Quero agendar a vistoria. Placa: "+state.placa)}" target="_blank" rel="noopener" style="color:var(--amber);font-weight:600">Agendar pelo WhatsApp →</a>`;
@@ -689,7 +704,7 @@ document.querySelectorAll(".reveal").forEach(el => io.observe(el));
   /* luzes */
   scene.add(new THREE.AmbientLight(0x3A3A34, .8));
   const key = new THREE.DirectionalLight(0xB0B0A8, .9); key.position.set(-4, 8, 6); scene.add(key);
-  const amberGlow = new THREE.PointLight(0xFFD60A, 1.6, 14); amberGlow.position.set(2.6, 1.4, 2.2); scene.add(amberGlow);
+  const amberGlow = new THREE.PointLight(0xF3E23D, 1.6, 14); amberGlow.position.set(2.6, 1.4, 2.2); scene.add(amberGlow);
 
   /* chão com grade sutil */
   const ground = new THREE.Mesh(
@@ -727,11 +742,11 @@ document.querySelectorAll(".reveal").forEach(el => io.observe(el));
   });
 
   /* faróis (a assinatura Amper: energia) */
-  const lampMat = new THREE.MeshStandardMaterial({ color:0xFFE566, emissive:0xFFD60A, emissiveIntensity:2.4 });
+  const lampMat = new THREE.MeshStandardMaterial({ color:0xF9F08A, emissive:0xF3E23D, emissiveIntensity:2.4 });
   [.55,-.55].forEach(z => {
     const lamp = new THREE.Mesh(new THREE.BoxGeometry(.1,.16,.42), lampMat);
     lamp.position.set(2.51, .68, z); car.add(lamp);
-    const spot = new THREE.SpotLight(0xFFDD33, 2.2, 18, Math.PI/7, .55, 1.2);
+    const spot = new THREE.SpotLight(0xF7EC66, 2.2, 18, Math.PI/7, .55, 1.2);
     spot.position.set(2.5, .7, z);
     const tgt = new THREE.Object3D(); tgt.position.set(9, .1, z*2.2);
     car.add(tgt); spot.target = tgt; car.add(spot);
@@ -750,7 +765,7 @@ document.querySelectorAll(".reveal").forEach(el => io.observe(el));
   /* ---------- moedas subindo do carro ---------- */
   const COINS = reduced ? 0 : (isMobile ? 26 : 46);
   const coinGeo = new THREE.CylinderGeometry(.16, .16, .045, 18);
-  const coinMat = new THREE.MeshStandardMaterial({ color:0xFFDD33, roughness:.25, metalness:.85, emissive:0x6B5A00, emissiveIntensity:.5 });
+  const coinMat = new THREE.MeshStandardMaterial({ color:0xF7EC66, roughness:.25, metalness:.85, emissive:0x6B5A00, emissiveIntensity:.5 });
   const coins = [];
   for(let i = 0; i < COINS; i++){
     const c = new THREE.Mesh(coinGeo, coinMat);
