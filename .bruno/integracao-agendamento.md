@@ -19,6 +19,9 @@ Fluxo: simular → `leads` (INSERT) · confirmar vistoria → `agendamentos` (IN
 - [x] `emprestimo.html`: salva lead ao simular (`source:'emprestimo'`) e agendamento ao confirmar
 - [x] Mensagem de sucesso já traz o aviso "a vistoria não garante a aprovação"
 - [x] Cor da marca corrigida para `#F3E23D` (diretrizes) em toda a página
+- [x] E-mail redesenhado com identidade Amper + endereço da vistoria (secret `ENDERECO_VISTORIA`) e link do mapa
+- [x] Endereço também no campo `location` do evento do Calendar
+- [x] Disponibilidade real funcionando (horário ocupado some da lista)
 
 ## Falta você fazer (backend — precisa das chaves)
 
@@ -50,9 +53,10 @@ notify pgrst, 'reload schema';
 - Crie conta, verifique o domínio amper.com.br, gere API key
 - (alternativa: SendGrid, muda só a chamada no index.ts)
 
-### 4. WhatsApp (Cloud API) — developers.facebook.com
-- App → produto "WhatsApp" → pegue o Phone Number ID e um token permanente
-- (alternativa mais rápida de configurar: Twilio WhatsApp; muda a função enviarWhatsApp)
+### 4. WhatsApp (Cloud API)
+Ver checklist completo em `.bruno/whatsapp-producao.md`.
+Resumo: token permanente via usuário do sistema + template `vistoria_confirmada`
+aprovado + verificação da empresa + número novo exclusivo da API.
 
 ### 4b. Disponibilidade real (Google Calendar freebusy)
 A página agora busca os horários livres em vez de mostrar slots fixos.
