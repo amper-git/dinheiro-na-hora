@@ -600,25 +600,61 @@ function animateAmount(target){
 }
 
 /* ---------------- agendamento ---------------- */
-$("#contract-btn").addEventListener("click", () => { buildScheduler(); showStep("schedule"); });
+$("#contract-btn").addEventListener("click", () => { showStep("schedule"); buildScheduler(); });
 $("#redo-btn").addEventListener("click", () => { showStep("form"); });
 
-function buildScheduler(){
+const DISPONIBILIDADE_URL = "https://edqzebcvthdpmkfidvdc.supabase.co/functions/v1/disponibilidade";
+let DIAS_DISPONIVEIS = null;
+
+async function buildScheduler(){
   const dayGrid = $("#day-grid"), timeGrid = $("#time-grid");
-  dayGrid.innerHTML = ""; timeGrid.innerHTML = "";
-  const days = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
-  const d = new Date(); let added = 0;
-  while(added < 6){
-    d.setDate(d.getDate()+1);
-    if(d.getDay()===0) continue;               // pula domingos
-    const iso = d.toISOString().slice(0,10);
+  dayGrid.innerHTML = '<p style="color:var(--muted);font-size:14px;grid-column:1/-1">Buscando horários livres…</p>';
+  timeGrid.innerHTML = "";
+  state.dia = null; state.hora = null;
+
+  /* busca disponibilidade real (Google Calendar + já agendados) */
+  try{
+    const res = await fetch(DISPONIBILIDADE_URL);
+    const data = await res.json();
+    DIAS_DISPONIVEIS = (data && data.ok && data.dias && data.dias.length) ? data.dias : null;
+  }catch(_){ DIAS_DISPONIVEIS = null; }
+
+  /* fallback: próximos dias úteis com horários padrão */
+  if(!DIAS_DISPONIVEIS){
+    DIAS_DISPONIVEIS = [];
+    const d = new Date();
+    while(DIAS_DISPONIVEIS.length < 6){
+      d.setDate(d.getDate()+1);
+      if(d.getDay()===0 || d.getDay()===6) continue;
+      DIAS_DISPONIVEIS.push({
+        data: d.toISOString().slice(0,10),
+        slots: ["09:00","10:00","11:00","12:00","14:00","15:00","16:00"]
+      });
+    }
+  }
+
+  const nomes = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+  dayGrid.innerHTML = "";
+  DIAS_DISPONIVEIS.slice(0,8).forEach(dia => {
+    const [y,m,dd] = dia.data.split("-");
+    const dt = new Date(+y, +m-1, +dd);
     const b = document.createElement("button");
     b.type = "button"; b.className = "slot";
-    b.innerHTML = `${String(d.getDate()).padStart(2,"0")}/${String(d.getMonth()+1).padStart(2,"0")}<small>${days[d.getDay()]}</small>`;
-    b.onclick = () => select(dayGrid, b, () => state.dia = iso);
-    dayGrid.appendChild(b); added++;
-  }
-  ["08:00","09:30","11:00","13:30","15:00","16:30"].forEach(h => {
+    b.innerHTML = `${dd}/${m}<small>${nomes[dt.getDay()]}</small>`;
+    b.onclick = () => {
+      select(dayGrid, b, () => state.dia = dia.data);
+      renderHorarios(dia.slots);
+    };
+    dayGrid.appendChild(b);
+  });
+
+  timeGrid.innerHTML = '<p style="color:var(--muted);font-size:13.5px;grid-column:1/-1">Escolha um dia para ver os horários.</p>';
+}
+
+function renderHorarios(slots){
+  const timeGrid = $("#time-grid");
+  timeGrid.innerHTML = ""; state.hora = null;
+  slots.forEach(h => {
     const b = document.createElement("button");
     b.type = "button"; b.className = "slot"; b.textContent = h;
     b.onclick = () => select(timeGrid, b, () => state.hora = h);

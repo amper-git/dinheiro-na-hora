@@ -54,9 +54,16 @@ notify pgrst, 'reload schema';
 - App → produto "WhatsApp" → pegue o Phone Number ID e um token permanente
 - (alternativa mais rápida de configurar: Twilio WhatsApp; muda a função enviarWhatsApp)
 
+### 4b. Disponibilidade real (Google Calendar freebusy)
+A página agora busca os horários livres em vez de mostrar slots fixos.
+Regras: seg–sex, 9h–17h, vistoria de 40 min, antecedência mínima 24h, janela de 14 dias.
+Se a function não responder, o frontend cai num calendário estático (degradação suave).
+Para mudar as regras: `supabase/functions/disponibilidade/index.ts` (constantes no topo).
+
 ### 5. Deploy da Edge Function
 ```bash
 supabase functions deploy agendamento-webhook
+supabase functions deploy disponibilidade --no-verify-jwt
 supabase secrets set \
   GOOGLE_SA_JSON="$(cat service-account.json)" \
   CALENDAR_ID="seu-email@gmail.com" \
