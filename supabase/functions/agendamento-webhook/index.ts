@@ -55,11 +55,13 @@ async function criarEventoCalendar({ plate, email, inicio, fim, valor }) {
       `Placa: ${plate}\nValor pré-aprovado: R$ ${valor}\nContato: ${email}\n\n${DISCLAIMER}`,
     start: { dateTime: inicio.toISOString(), timeZone: "America/Sao_Paulo" },
     end:   { dateTime: fim.toISOString(),    timeZone: "America/Sao_Paulo" },
-    attendees: email ? [{ email }] : [],
+    // Sem `attendees`: uma service account não pode convidar participantes sem
+    // domain-wide delegation (retorna 403 forbiddenForServiceAccounts).
+    // O cliente é avisado pelo e-mail do Resend e pelo WhatsApp.
   };
 
   const r = await fetch(
-    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?sendUpdates=all`,
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`,
     { method: "POST", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       body: JSON.stringify(evento) });
   if (!r.ok) throw new Error(`Calendar: ${await r.text()}`);
