@@ -614,7 +614,13 @@ async function buildScheduler(){
 
   /* busca disponibilidade real (Google Calendar + já agendados) */
   try{
-    const res = await fetch(DISPONIBILIDADE_URL);
+    const res = await fetch(DISPONIBILIDADE_URL, {
+      headers: {
+        /* chave publicável (mesma do leads.js) — passa pelo Verify JWT se estiver ligado */
+        "apikey": "sb_publishable_z8g0pD7c4n8D2qMDjbTo7Q_kBossQxg",
+        "Authorization": "Bearer sb_publishable_z8g0pD7c4n8D2qMDjbTo7Q_kBossQxg"
+      }
+    });
     const data = await res.json();
     DIAS_DISPONIVEIS = (data && data.ok && data.dias && data.dias.length) ? data.dias : null;
   }catch(_){ DIAS_DISPONIVEIS = null; }
