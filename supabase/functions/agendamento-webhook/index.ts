@@ -50,6 +50,7 @@ async function criarEventoCalendar({ plate, email, inicio, fim, valor }) {
 
   const evento = {
     summary: `Vistoria Amper — placa ${plate}`,
+    location: Deno.env.get("ENDERECO_VISTORIA") || undefined,
     description:
       `Agendamento de vistoria (Dinheiro na Hora).\n` +
       `Placa: ${plate}\nValor pré-aprovado: R$ ${valor}\nContato: ${email}\n\n${DISCLAIMER}`,
@@ -93,13 +94,87 @@ async function getGoogleToken(sa: any, scope: string) {
 // ---- E-mail (Resend) ----
 async function enviarEmail({ email, plate, inicio, valor }) {
   if (!email) return;
-  const quando = inicio.toLocaleString("pt-BR", { dateStyle: "long", timeStyle: "short", timeZone: "America/Sao_Paulo" });
-  const html =
-    `<h2>Sua vistoria está agendada ✅</h2>
-     <p>Recebemos seu pedido de crédito com garantia do veículo <strong>${plate}</strong>.</p>
-     <p><strong>Quando:</strong> ${quando}<br><strong>Valor pré-aprovado:</strong> R$ ${valor}</p>
-     <p style="color:#666;font-size:13px">${DISCLAIMER}</p>
-     <p>Equipe Amper</p>`;
+  const quando = inicio.toLocaleString("pt-BR", {
+    dateStyle: "long", timeStyle: "short", timeZone: "America/Sao_Paulo",
+  });
+  // Endereço da vistoria — defina o secret ENDERECO_VISTORIA no Supabase.
+  const endereco = Deno.env.get("ENDERECO_VISTORIA") ||
+    "Endereço da loja Amper — a confirmar";
+  const mapa = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(endereco)}`;
+  const valorFmt = Number(valor || 0).toLocaleString("pt-BR");
+
+  const html = `
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#F2EFE9;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F2EFE9;padding:24px 12px;">
+<tr><td align="center">
+  <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background:#FFFFFF;border-radius:14px;overflow:hidden;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+
+    <!-- cabeçalho -->
+    <tr><td style="background:#0A0A0A;padding:26px 30px;">
+      <span style="font-family:'Arial Black',Arial,sans-serif;font-size:26px;letter-spacing:1.5px;color:#FFFFFF;text-transform:uppercase;">AMPER</span>
+    </td></tr>
+
+    <!-- faixa amarela -->
+    <tr><td style="background:#F3E23D;padding:22px 30px;">
+      <div style="font-family:'Arial Black',Arial,sans-serif;font-size:23px;line-height:1.15;color:#000000;text-transform:uppercase;">
+        Vistoria agendada
+      </div>
+      <div style="font-size:15px;color:#000000;margin-top:6px;">
+        Placa <strong>${plate}</strong>
+      </div>
+    </td></tr>
+
+    <!-- corpo -->
+    <tr><td style="padding:30px;">
+      <p style="margin:0 0 22px;font-size:16px;line-height:1.55;color:#141312;">
+        Tudo certo! Recebemos seu pedido de crédito com garantia de veículo. Abaixo estão os detalhes do seu agendamento.
+      </p>
+
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #E5E1D8;border-radius:10px;">
+        <tr><td style="padding:16px 18px;border-bottom:1px solid #E5E1D8;">
+          <div style="font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#78736A;">Data e hora</div>
+          <div style="font-size:17px;color:#141312;font-weight:600;margin-top:3px;">${quando}</div>
+        </td></tr>
+        <tr><td style="padding:16px 18px;border-bottom:1px solid #E5E1D8;">
+          <div style="font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#78736A;">Onde levar o carro</div>
+          <div style="font-size:16px;color:#141312;font-weight:600;margin-top:3px;">${endereco}</div>
+          <a href="${mapa}" style="display:inline-block;margin-top:8px;font-size:14px;color:#8A6D00;font-weight:600;text-decoration:none;">Ver no mapa &rarr;</a>
+        </td></tr>
+        <tr><td style="padding:16px 18px;">
+          <div style="font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#78736A;">Valor pré-aprovado</div>
+          <div style="font-family:'Arial Black',Arial,sans-serif;font-size:26px;color:#1F7A3D;margin-top:3px;">R$ ${valorFmt}</div>
+        </td></tr>
+      </table>
+
+      <p style="margin:24px 0 6px;font-size:15px;line-height:1.55;color:#57534B;">
+        A vistoria leva cerca de 40 minutos. Leve o documento do veículo e um documento com foto.
+      </p>
+
+      <!-- aviso -->
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin-top:20px;background:#F2EFE9;border-radius:10px;">
+        <tr><td style="padding:14px 16px;font-size:13.5px;line-height:1.5;color:#57534B;">
+          <strong style="color:#141312;">Importante:</strong> a vistoria é uma etapa de avaliação e
+          <strong>não garante a aprovação do crédito</strong>. O valor final depende da análise do veículo e da documentação.
+        </td></tr>
+      </table>
+    </td></tr>
+
+    <!-- rodapé -->
+    <tr><td style="background:#0A0A0A;padding:22px 30px;">
+      <div style="font-family:'Arial Black',Arial,sans-serif;font-size:15px;letter-spacing:1.2px;color:#FFFFFF;text-transform:uppercase;">AMPER</div>
+      <div style="font-size:12.5px;color:#A19B90;margin-top:6px;line-height:1.5;">
+        Crédito com garantia de veículo &middot; Sujeito a análise.<br>
+        Você recebeu este e-mail porque agendou uma vistoria com a Amper.
+      </div>
+    </td></tr>
+
+  </table>
+</td></tr></table>
+</body></html>`;
+
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`, "Content-Type": "application/json" },
@@ -109,7 +184,7 @@ async function enviarEmail({ email, plate, inicio, valor }) {
       // do Resend funciona — mas só entrega no e-mail dono da conta Resend.
       from: Deno.env.get("EMAIL_FROM") || "Amper <onboarding@resend.dev>",
       to: email,
-      subject: "Vistoria agendada — Amper", html }),
+      subject: `Vistoria agendada — ${quando}`, html }),
   });
   if (!r.ok) console.error("Resend:", await r.text());
 }
