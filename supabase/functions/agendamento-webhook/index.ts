@@ -115,18 +115,51 @@ async function enviarEmail({ email, plate, inicio, valor }) {
 }
 
 // ---- WhatsApp (Cloud API) ----
+// A Meta só permite TEXTO LIVRE dentro de 24h após o cliente escrever para você.
+// Como aqui nós iniciamos a conversa, é obrigatório usar um TEMPLATE aprovado.
+// Crie no WhatsApp Manager um template UTILITY chamado `vistoria_confirmada`
+// (pt_BR) com o corpo:
+//
+//   Vistoria agendada na Amper!
+//   Veículo: {{1}}
+//   Quando: {{2}}
+//   Importante: a vistoria é uma etapa de avaliação e não garante a aprovação
+//   do crédito. O valor final depende da análise do veículo e da documentação.
+//
+// Ajuste o nome pelo secret WHATSAPP_TEMPLATE, se usar outro.
 async function enviarWhatsApp({ whatsapp, plate, inicio }) {
   if (!whatsapp) return;
   const to = whatsapp.replace(/\D/g, "").replace(/^0+/, "");
   const numero = to.startsWith("55") ? to : `55${to}`;
-  const quando = inicio.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short", timeZone: "America/Sao_Paulo" });
-  const texto =
-    `✅ Vistoria agendada na Amper!\n\nVeículo ${plate}\n${quando}\n\n${DISCLAIMER}`;
+  const quando = inicio.toLocaleString("pt-BR", {
+    dateStyle: "short", timeStyle: "short", timeZone: "America/Sao_Paulo",
+  });
+
   const phoneId = Deno.env.get("WHATSAPP_PHONE_ID");
+  const template = Deno.env.get("WHATSAPP_TEMPLATE") || "vistoria_confirmada";
+
   const r = await fetch(`https://graph.facebook.com/v21.0/${phoneId}/messages`, {
     method: "POST",
-    headers: { Authorization: `Bearer ${Deno.env.get("WHATSAPP_TOKEN")}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ messaging_product: "whatsapp", to: numero, type: "text", text: { body: texto } }),
+    headers: {
+      Authorization: `Bearer ${Deno.env.get("WHATSAPP_TOKEN")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      messaging_product: "whatsapp",
+      to: numero,
+      type: "template",
+      template: {
+        name: template,
+        language: { code: "pt_BR" },
+        components: [{
+          type: "body",
+          parameters: [
+            { type: "text", text: plate },
+            { type: "text", text: quando },
+          ],
+        }],
+      },
+    }),
   });
   if (!r.ok) console.error("WhatsApp:", await r.text());
 }
