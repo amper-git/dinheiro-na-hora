@@ -103,7 +103,12 @@ async function enviarEmail({ email, plate, inicio, valor }) {
   const r = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: `Bearer ${Deno.env.get("RESEND_API_KEY")}`, "Content-Type": "application/json" },
-    body: JSON.stringify({ from: "Amper <vistoria@amper.com.br>", to: email,
+    body: JSON.stringify({
+      // EMAIL_FROM (secret) quando o domínio estiver verificado no Resend,
+      // ex.: "Amper <vistoria@amper.com.br>". Enquanto isso, o domínio de testes
+      // do Resend funciona — mas só entrega no e-mail dono da conta Resend.
+      from: Deno.env.get("EMAIL_FROM") || "Amper <onboarding@resend.dev>",
+      to: email,
       subject: "Vistoria agendada — Amper", html }),
   });
   if (!r.ok) console.error("Resend:", await r.text());
